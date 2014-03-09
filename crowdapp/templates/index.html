@@ -4,7 +4,8 @@
 	<div class="col-lg-4">
 		<h2>Device</h2>
        	{% for d in data['devices'] %}
-       	<ul>
+       	<ul class="item">
+       		<li>id: {{d._id}}</li>
        		<li>name: {{d.name}}</li>
        		<li>button num: {{d.button_num}}</li>
        		<li>location: {{d.location}}</li>
@@ -17,7 +18,8 @@
     <div class="col-lg-4">
   	    <h2>Question</h2>
        	{% for q in data['questions'] %}
-       	<ul>
+       	<ul class="item">
+       		<li>id: {{q._id}}</li>
        		<li>content: {{q.content}}</li>
        		<li>answer_list: {{q.answer_list}}</li>
 			<li>created by: {{q.created_user}}</li>
@@ -29,7 +31,8 @@
     <div class="col-lg-4">
 		<h2>Answer</h2>
        	{% for a in data['answers'] %}
-       	<ul>
+       	<ul class="item">
+       		<li>id: {{a._id}}</li>
        		<li>question_id: {{a.question_id}}</li>
        		<li>content: {{a.content}}</li>
 			<li>created by: {{a.created_user}}</li>

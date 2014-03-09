@@ -7,9 +7,9 @@ views = Blueprint('views', __name__, template_folder='templates')
 
 @views.route('/')
 def index():
-    devices = DBQuery().get_last_devices()
-    questions = DBQuery().get_last_questions()
-    answers = DBQuery().get_last_answers()
+    devices = DBQuery().get_last_devices(5)
+    questions = DBQuery().get_last_questions(5)
+    answers = DBQuery().get_last_answers(5)
     data = {
         'devices': devices,
         'questions': questions,

@@ -4,7 +4,19 @@
    Author's custom styles
    ========================================================================== */
 
+ul.item {
+    list-style: none;
+    padding: 0.5em;
+    margin: 1.4em 0;
+    
+    background-color: #ffffff;
+  	border: 1px solid #dedede;
 
+    -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px; -khtml-border-top-left-radius: 5px; border-top-left-radius: 5px;
+  	-moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; -khtml-border-top-right-radius: 5px; border-top-right-radius: 5px;
+  	-moz-border-radius-bottomleft: 5px; -webkit-border-bottom-left-radius: 5px; -khtml-border-bottom-left-radius: 5px; border-bottom-left-radius: 5px;
+  	-moz-border-radius-bottomright: 5px; -webkit-border-bottom-right-radius: 5px; -khtml-border-bottom-right-radius: 5px; border-bottom-right-radius: 5px; 
+}
 
 
 
