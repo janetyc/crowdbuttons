@@ -1,4 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Hello World!</h1>
+<div class="row">
+	<div class="col-lg-4">
+		<h2>Device</h2>
+       	{% for d in data['devices'] %}
+       	<ul>
+       		<li>name: {{d.name}}</li>
+       		<li>button num: {{d.button_num}}</li>
+       		<li>location: {{d.location}}</li>
+			<li>created by: {{d.created_user}}</li>
+      		<li>created time: {{d.created_time}}</li>
+		</ul>
+       	{% endfor %}
+       	
+	</div>
+    <div class="col-lg-4">
+  	    <h2>Question</h2>
+       	{% for q in data['questions'] %}
+       	<ul>
+       		<li>content: {{q.content}}</li>
+       		<li>answer_list: {{q.answer_list}}</li>
+			<li>created by: {{q.created_user}}</li>
+       		<li>created time: {{q.created_time}}</li>
+		</ul>
+       	{% endfor %}
+          
+    </div>
+    <div class="col-lg-4">
+		<h2>Answer</h2>
+       	{% for a in data['answers'] %}
+       	<ul>
+       		<li>question_id: {{a.question_id}}</li>
+       		<li>content: {{a.content}}</li>
+			<li>created by: {{a.created_user}}</li>
+       		<li>created time: {{a.created_time}}</li>
+		</ul>
+       	{% endfor %}
+	</div>
+</div>
 {% endblock %}
