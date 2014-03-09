@@ -3,3 +3,4 @@ Jinja2
 Werkzeug
 gunicorn
 Flask-Scss
+Flask-MongoKit
