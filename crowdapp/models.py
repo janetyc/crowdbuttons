@@ -10,6 +10,7 @@ class Device(Document):
     structure = {
         'name': unicode,
         'button_num': int,
+        'question_id': unicode,
         'location': unicode,
         'created_time': datetime,
         'created_user': unicode
@@ -26,6 +27,7 @@ class Question(Document):
     structure = {
         'content': unicode,
         'answer_list': list,
+        'device_list': list, #store device._id
         'created_time': datetime,
         'created_user': unicode
     }
@@ -39,6 +41,7 @@ class Answer(Document):
     __collection__ = "answer"
     structure = {
         'question_id': unicode,
+        'device_id': unicode,
         'content': unicode,
         'created_time':datetime,
         'created_user':unicode

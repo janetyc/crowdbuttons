@@ -11,6 +11,7 @@ class DBQuery(object):
         device = Device()
         device.name = input['name']
         device.button_num = input['button_num']
+        device.question_id = input['question_id']
         device.location = input['location']
         device.created_user = input['created_user']
         device.created_time = datetime.utcnow()
@@ -36,6 +37,7 @@ class DBQuery(object):
         question = Question()
         question.content = input['content']
         question.answer_list = input['answer_list']
+        question.device_list = input['device_list']
         question.created_user = input['created_user']
         question.created_time = datetime.utcnow()
         question_id = db.question.insert(question)
@@ -59,6 +61,7 @@ class DBQuery(object):
     def add_answer(self, input):
         answer = Answer()
         answer.question_id = input['question_id']
+        answer.device_id = input['device_id']
         answer.content = input['content']
         answer.created_user = input['created_user']
         answer.created_time = datetime.utcnow()

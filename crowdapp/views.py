@@ -31,6 +31,7 @@ def add_device():
     input = {
         'name': request.args.get('name', u'test'),
         'button_num': int(request.args.get('button_num', u'0')),
+        'question_id': request.args.get('question_id', u''),
         'location': request.args.get('location', u'test'),
         'created_user': request.args.get('created_user', u'test')
     }
@@ -44,6 +45,7 @@ def add_question():
     input = {
         'content': request.args.get('content', u'test question'),
         'answer_list': request.args.get('answer_list', u'ans1|ans2|ans3|ans4').split('|'),
+        'device_list': request.args.get('device_list', u'').split('|'),
         'created_user': request.args.get('created_user', u'test')
     }
 
@@ -54,6 +56,7 @@ def add_question():
 def add_answer(question_id):
     input = {
         'question_id': question_id,
+        'device_id': device_id,
         'content': request.args.get('content', u'0'),
         'created_user': request.args.get('created_user', u'test')
     }
