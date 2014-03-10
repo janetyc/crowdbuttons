@@ -56,7 +56,7 @@ def add_question():
 def add_answer(question_id):
     input = {
         'question_id': question_id,
-        'device_id': device_id,
+        'device_id': request.args.get('device_id', u''),
         'content': request.args.get('content', u'0'),
         'created_user': request.args.get('created_user', u'test')
     }
