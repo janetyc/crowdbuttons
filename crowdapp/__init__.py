@@ -17,7 +17,7 @@ elif env == "TESTING":
     app.config.from_object('config.TestingConfig')
     
 else:
-    app.config.from_object('config')
+    app.config.from_object('config.Config')
 
 db = MongoKit(app)
 
