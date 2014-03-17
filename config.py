@@ -42,3 +42,21 @@ class TestingConfig(Config):
     MONGODB_DATABASE = "crowdBt"
     MONGODB_USERNAME = None
     MONGODB_PASSWORD = None
+
+class DebugConfig(Config):
+    DEBUG = True
+    TESTING = False
+    MONGO_URI = os.getenv("MONGOHQ_URL", "mongodb://:@localhost:27017/crowdBt")
+    url = urlparse.urlparse(MONGO_URI)
+    DB_NAME = url.path[1:]
+    MONGODB_HOST = url.hostname
+    MONGODB_PORT = url.port
+    MONGODB_DATABASE = DB_NAME
+    MONGODB_USERNAME = url.username
+    MONGODB_PASSWORD = url.password
+
+    if MONGODB_USERNAME == "":
+        MONGODB_USERNAME = None
+    
+    if MONGODB_PASSWORD == "":
+        MONGODB_PASSWORD = None

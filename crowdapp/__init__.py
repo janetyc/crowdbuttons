@@ -16,6 +16,9 @@ elif env == "PRODUCTION":
 elif env == "TESTING":
     app.config.from_object('config.TestingConfig')
     
+elif env == "DEBUG":
+    app.config.from_object('config.DebugConfig')
+
 else:
     app.config.from_object('config.Config')
 
