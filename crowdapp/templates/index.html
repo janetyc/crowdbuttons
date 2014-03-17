@@ -1,47 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-	<div class="col-lg-4">
-		<h2>Device</h2>
-       	{% for d in data['devices'] %}
-       	<ul class="item">
-       		<li>id: {{d._id}}</li>
-       		<li>name: {{d.name}}</li>
-       		<li>button num: {{d.button_num}}</li>
-       		<li>question_id: {{d.question_id}}</li>
-       		<li>location: {{d.location}}</li>
-			<li>created by: {{d.created_user}}</li>
-      		<li>created time: {{d.created_time}}</li>
-		</ul>
-       	{% endfor %}
-       	
-	</div>
-    <div class="col-lg-4">
-  	    <h2>Question</h2>
-       	{% for q in data['questions'] %}
-       	<ul class="item">
-       		<li>id: {{q._id}}</li>
-       		<li>content: {{q.content}}</li>
-       		<li>answer_list: {{q.answer_list}}</li>
-       		<li>device_list: {{q.device_list}}</li>
-			<li>created by: {{q.created_user}}</li>
-       		<li>created time: {{q.created_time}}</li>
-		</ul>
-       	{% endfor %}
-          
-    </div>
-    <div class="col-lg-4">
-		<h2>Answer</h2>
-       	{% for a in data['answers'] %}
-       	<ul class="item">
-       		<li>id: {{a._id}}</li>
-       		<li>question_id: {{a.question_id}}</li>
-       		<li>device_id: {{a.device_id}}</li>
-       		<li>content: {{a.content}}</li>
-			<li>created by: {{a.created_user}}</li>
-       		<li>created time: {{a.created_time}}</li>
-		</ul>
-       	{% endfor %}
-	</div>
+  {% for d in data %}
+  <ul class="item">
+    <span class="name">{{ d.device_name }}</span> answer <span class="question">"{{ d.question }}"</span><br/>
+    <span class="answer">{{ d.answer }}</span>
+    <span class="location">at {{ d.location }}</span><span>({{ d.created_time }})</span>
+	</ul>
+  {% endfor %}
 </div>
 {% endblock %}
