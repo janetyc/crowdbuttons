@@ -8,7 +8,7 @@ views = Blueprint('views', __name__, template_folder='templates')
 
 @views.route('/')
 def index():
-    answers = DBQuery().get_last_answers(5)
+    answers = DBQuery().get_last_answers(10)
     data_list = []
     for ans in answers:
         answer_index = int(ans.content)
