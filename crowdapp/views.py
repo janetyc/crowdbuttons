@@ -1,6 +1,7 @@
 from flask import Blueprint, Flask, Response, request, render_template, redirect, url_for, jsonify
 from crowdapp import app
 from crowdapp.dbquery import DBQuery
+from datetime import datetime
 
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
@@ -12,11 +13,11 @@ def index():
     for ans in answers:
         answer_index = int(ans.content)
         question_id = ans.question_id
-        
         #fetch question & device
         question = DBQuery().get_question_by_id(question_id)
+
         if ans.device_id:
-            device = DBQuery().get_device_by_id(device_id)
+            device = DBQuery().get_device_by_id(ans.device_id)
             device_name = device.name
             device_location = device.location
         else:
@@ -28,12 +29,16 @@ def index():
         else:
             answer = question.answer_list[answer_index]
 
+        print ans.created_time
+        print datetime
+        created_time  = datetime.strftime(ans.created_time, "%Y-%m-%d %H:%M:%S")
+
         data = {
             "question": question.content,
             "answer": answer,
             "device_name": device_name,
             "location": device_location,
-            "created_time": ans.created_time
+            "created_time": created_time
         }
         data_list.append(data)
 
