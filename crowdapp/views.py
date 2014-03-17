@@ -32,7 +32,7 @@ def add_device():
         'name': request.args.get('name', u'test'),
         'button_num': int(request.args.get('button_num', u'0')),
         'question_id': request.args.get('question_id', u''),
-        'location': request.args.get('location', u'test'),
+        'location': request.args.get('location', u''),
         'created_user': request.args.get('created_user', u'test')
     }
 
@@ -52,18 +52,23 @@ def add_question():
     question_id = DBQuery().add_question(input)
     return jsonify(success=1, data=question_id)
 
-@views.route('/add_answer/<ObjectId:question_id>', methods=('GET', 'POST'))
-def add_answer(question_id):
+@views.route('/add_answer/<ObjectId:question_id>/<int:answer>', methods=('GET', 'POST'))
+def add_answer(question_id, answer):
     input = {
         'question_id': question_id,
         'device_id': request.args.get('device_id', u''),
-        'content': request.args.get('content', u'0'),
+        'content': answer,
         'created_user': request.args.get('created_user', u'test')
     }
 
     question = DBQuery().get_question_by_id(question_id)
-    if question:
-        answer_id = DBQuery().add_answer(input)
-        return jsonify(success=1, data=answer_id)
-    else:
-        return jsonify(success=0, data="")
+    if not question:
+        return jsonify(success=0, data="", error="NOT SUCH QUESTION!!")
+
+    if answer < 0 or answer >= len(question.answer_list):
+        return jsonify(success=0, data="", error="INCORRECT ANSWER!")
+
+    answer_id = DBQuery().add_answer(input)
+    return jsonify(success=1, data=answer_id)
+    
+
