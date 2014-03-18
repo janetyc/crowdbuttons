@@ -82,3 +82,8 @@ class DBQuery(object):
         else:
             return []
         
+    def get_answers_by_question_id(self, question_id, count):
+        query = db.Answer.find({"question_id": question_id}).sort("created_time", -1).limit(count)
+        result = [q for q in query]
+        
+        return result

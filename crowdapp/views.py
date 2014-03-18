@@ -6,6 +6,7 @@ from datetime import datetime
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
 
+
 @views.route('/')
 def index():
     answers = DBQuery().get_last_answers(10)
@@ -16,7 +17,8 @@ def index():
         #fetch question & device
         question = DBQuery().get_question_by_id(question_id)
 
-        if ans.device_id:
+        device_id = ans.get("device_id", None)
+        if device_id:
             device = DBQuery().get_device_by_id(ans.device_id)
             device_name = device.name
             device_location = device.location
@@ -29,8 +31,6 @@ def index():
         else:
             answer = question.answer_list[answer_index]
 
-        print ans.created_time
-        print datetime
         created_time  = datetime.strftime(ans.created_time, "%Y-%m-%d %H:%M:%S")
 
         data = {
@@ -57,6 +57,30 @@ def dashboard():
 
     return render_template('dashboard.html', data=data)
 
+@views.route('/get_answers/<ObjectId:question_id>/<int:count>')
+def get_answers(question_id, count):
+    answers = DBQuery().get_answers_by_question_id(question_id, count)
+    map = {}
+    for ans in answers:
+        created_time  = datetime.strftime(ans.created_time, "%Y%m%d%H")
+        print created_time
+
+        if created_time in map:
+            data = map[created_time]
+            if int(ans.content) in data:
+                data[ans.content] = data[ans.content] + 1
+            else:
+                data[ans.content] = 1
+
+            map[created_time] = data
+        else:
+            data = {}
+            data[ans.content] = 1
+            map[created_time] = data
+
+    print map
+    return jsonify(success=1, data=map)
+
 @views.route('/404')
 def page_not_found():
     return render_template('404.html'), 404
@@ -65,6 +89,7 @@ def page_not_found():
 def bad_request():
     return render_template('400.html'), 400
 
+# ----- add function -----
 @views.route('/add_device', methods=('GET','POST'))
 def add_device():
     input = {
