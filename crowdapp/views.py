@@ -1,7 +1,7 @@
 from flask import Blueprint, Flask, Response, request, render_template, redirect, url_for, jsonify
 from crowdapp import app
 from crowdapp.dbquery import DBQuery
-from datetime import datetime
+from datetime import datetime, timedelta
 
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
@@ -31,7 +31,9 @@ def index():
         else:
             answer = question.answer_list[answer_index]
 
-        created_time  = datetime.strftime(ans.created_time, "%Y-%m-%d %H:%M:%S")
+        #Asia/Taipei 
+        local_time = ans.created_time + timedelta(hours=+8)
+        created_time  = datetime.strftime(local_time, "%Y-%m-%d %H:%M:%S")
 
         data = {
             "question": question.content,
