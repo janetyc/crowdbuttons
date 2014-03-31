@@ -59,17 +59,28 @@ def dashboard():
 
     return render_template('dashboard.html', data=data)
 
+@views.route('/get_vis/<ObjectId:question_id>/<int:count>')
+def get_vis(question_id, count):
+    data = {
+        "question_id": question_id,
+        "count": count
+    }
+    return render_template('visualization.html', data=data)
+
 @views.route('/get_answers/<ObjectId:question_id>/<int:count>')
 def get_answers(question_id, count):
     answers = DBQuery().get_answers_by_question_id(question_id, count)
     map = {}
-    for ans in answers:
-        created_time  = datetime.strftime(ans.created_time, "%Y%m%d%H")
-        print created_time
 
+    #statistic
+    for i, ans in enumerate(answers):
+        print i, ans
+
+        created_time  = datetime.strftime(ans.created_time, "%Y%m%d%H")
+        ans.content= int(ans.content)
         if created_time in map:
             data = map[created_time]
-            if int(ans.content) in data:
+            if ans.content in data:
                 data[ans.content] = data[ans.content] + 1
             else:
                 data[ans.content] = 1
@@ -80,8 +91,19 @@ def get_answers(question_id, count):
             data[ans.content] = 1
             map[created_time] = data
 
-    print map
-    return jsonify(success=1, data=map)
+    #data format
+    output = []
+    for time in map:
+        curr = map[time]
+        for ans_index in curr:
+            result = {
+                "created_time": time,
+                "answer": ans_index,
+                "count": curr[ans_index]
+            }
+        output.append(result)
+
+    return jsonify(success=1, data=output)
 
 @views.route('/404')
 def page_not_found():
