@@ -84,11 +84,10 @@ class DBQuery(object):
         
     def get_answers_by_question_id(self, question_id, count, *args, **kwargs):
         device_id = kwargs.get("device_id")
-        print device_id
         if device_id:
             query_str = {
                 "question_id": question_id,
-                "device_id": bson.ObjectId(str(device_id))
+                "device_id": str(device_id)
             }
         else:
             query_str = {
