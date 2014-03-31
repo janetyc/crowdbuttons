@@ -82,8 +82,28 @@ class DBQuery(object):
         else:
             return []
         
-    def get_answers_by_question_id(self, question_id, count):
-        query = db.Answer.find({"question_id": question_id}).sort("created_time", -1).limit(count)
+    def get_answers_by_question_id(self, question_id, count, *args, **kwargs):
+        device_id = kwargs.get("device_id")
+        print device_id
+        if device_id:
+            query_str = {
+                "question_id": question_id,
+                "device_id": bson.ObjectId(str(device_id))
+            }
+        else:
+            query_str = {
+                "question_id": question_id
+            }
+        
+        query = db.Answer.find(query_str).sort("created_time", -1).limit(count)
         result = [q for q in query]
         
         return result
+
+    def isValidObjectId(self, obj_id):
+        try:
+            id = bson.ObjectId(obj_id)
+            return True
+        except bson.errors.InvalidId:
+            return False
+        

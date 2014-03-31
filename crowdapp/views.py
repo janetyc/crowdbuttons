@@ -59,23 +59,27 @@ def dashboard():
 
     return render_template('dashboard.html', data=data)
 
-@views.route('/get_vis/<ObjectId:question_id>/<int:count>')
+@views.route('/get_vis/<ObjectId:question_id>/<int:count>',methods=('GET','POST'))
 def get_vis(question_id, count):
+    device_id = request.args.get('device_id', u'')
     data = {
         "question_id": question_id,
-        "count": count
+        "count": count,
+        "device_id": device_id
     }
+
     return render_template('visualization.html', data=data)
 
-@views.route('/get_answers/<ObjectId:question_id>/<int:count>')
+@views.route('/get_answers/<ObjectId:question_id>/<int:count>', methods=('GET','POST'))
 def get_answers(question_id, count):
-    answers = DBQuery().get_answers_by_question_id(question_id, count)
+    device_id = request.args.get('device_id', u'')
+    if DBQuery().isValidObjectId(device_id):
+        answers = DBQuery().get_answers_by_question_id(question_id, count, device_id=device_id)
+    else:
+        answers = DBQuery().get_answers_by_question_id(question_id, count)
     map = {}
-
     #statistic
     for i, ans in enumerate(answers):
-        print i, ans
-
         created_time  = datetime.strftime(ans.created_time, "%Y%m%d%H")
         ans.content= int(ans.content)
         if created_time in map:

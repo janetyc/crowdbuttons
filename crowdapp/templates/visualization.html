@@ -60,7 +60,7 @@ var svg = d3.select("#graph").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   
-d3.json("/get_answers/{{data.question_id}}/{{data.count}}", function(error, json) {
+d3.json("/get_answers/{{data.question_id}}/{{data.count}}?device_id={{data.device_id}}", function(error, json) {
   if (error) return console.warn(error);
   data = json.data;
   data.forEach(function(d) {
