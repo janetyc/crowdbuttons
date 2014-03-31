@@ -78,7 +78,7 @@ d3.json("/get_answers/{{data.question_id}}/{{data.count}}?device_id={{data.devic
       .enter().append("rect")
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.created_time); })
-      .attr("width", 3)
+      .attr("width", 1)
       .attr("y", function(d) { return y(d.count); })
       .attr("height", function(d) { return height - y(d.count); })
       .style("fill", function(d) { return color(d.answer); });
@@ -97,6 +97,25 @@ d3.json("/get_answers/{{data.question_id}}/{{data.count}}?device_id={{data.devic
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Count");
+
+  var legend = svg.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 15 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 10)
+      .attr("width", 10)
+      .attr("height", 10)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 15)
+      .attr("y", 5)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
 });
 
   
