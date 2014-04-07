@@ -82,6 +82,13 @@ class DBQuery(object):
         else:
             return []
 
+    def get_answer_count_by_device_id(self, device_id, *args, **kwargs):
+        query_str = {
+            "device_id": device_id
+        }
+        count = db.Answer.find(query_str, network_timeout=1).count()
+        return count
+        
     def get_answer_count_by_question_id(self, question_id, *args, **kwargs):
         device_id = kwargs.get("device_id")
         if device_id:
