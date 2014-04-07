@@ -50,6 +50,10 @@ def index():
 def dashboard():
     devices = DBQuery().get_last_devices(5)
     questions = DBQuery().get_last_questions(5)
+    for q in questions:
+        count = DBQuery().get_answer_count_by_question_id(q._id)
+        q[u'total'] = count
+
     answers = DBQuery().get_last_answers(5)
     data = {
         'devices': devices,
@@ -73,6 +77,7 @@ def get_vis(question_id, count):
 @views.route('/get_answers/<ObjectId:question_id>/<int:count>', methods=('GET','POST'))
 def get_answers(question_id, count):
     device_id = request.args.get('device_id', u'')
+
     if DBQuery().isValidObjectId(device_id):
         answers = DBQuery().get_answers_by_question_id(question_id, count, device_id=device_id)
     else:
@@ -88,23 +93,30 @@ def get_answers(question_id, count):
                 data[ans.content] = data[ans.content] + 1
             else:
                 data[ans.content] = 1
-
-            map[created_time] = data
         else:
             data = {}
             data[ans.content] = 1
-            map[created_time] = data
+        
+        map[created_time] = data
+
 
     #data format
     output = []
     for time in map:
         curr = map[time]
+
+        ans_list = []
         for ans_index in curr:
-            result = {
-                "created_time": time,
+            ans = {
                 "answer": ans_index,
                 "count": curr[ans_index]
             }
+            ans_list.append(ans)
+
+        result = {
+            "created_time": time,
+            "answers": ans_list
+        }
         output.append(result)
 
     return jsonify(success=1, data=output)
