@@ -56,7 +56,18 @@ var color = d3.scale.ordinal()
 
 
 //parseDate format
-var parseDate = d3.time.format("%Y%m%d%H").parse;
+var mode = "{{data.mode}}";
+var parseDate;
+
+if(mode == "daily"){
+  parseDate = d3.time.format("%Y%m%d").parse;
+}else if(mode == "weekly"){
+  parseDate = d3.time.format("%Y%m%U").parse;
+}else if(mode == "monthly"){
+  parseDate = d3.time.format("%Y%m").parse;
+}else{ //default: hourly
+  parseDate = d3.time.format("%Y%m%d%H").parse;
+}
 
 //x axis
 var x = d3.time.scale()
@@ -100,7 +111,7 @@ var svg = d3.select("#graph").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-d3.json("/get_answers/{{data.question_id}}/{{data.count}}?device_id={{data.device_id}}", function(error, json) {
+d3.json("/get_answers/{{data.question_id}}/{{data.count}}?device_id={{data.device_id}}&mode={{data.mode}}", function(error, json) {
   if (error) return console.warn(error);
   data = json.data;
 

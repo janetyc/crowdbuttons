@@ -71,10 +71,13 @@ def dashboard():
 @views.route('/get_vis/<ObjectId:question_id>/<int:count>',methods=('GET','POST'))
 def get_vis(question_id, count):
     device_id = request.args.get('device_id', u'')
+    mode = request.args.get('mode', u'hourly')
+
     data = {
         "question_id": question_id,
         "count": count,
-        "device_id": device_id
+        "device_id": device_id,
+        "mode": mode
     }
 
     return render_template('visualization.html', data=data)
@@ -82,15 +85,29 @@ def get_vis(question_id, count):
 @views.route('/get_answers/<ObjectId:question_id>/<int:count>', methods=('GET','POST'))
 def get_answers(question_id, count):
     device_id = request.args.get('device_id', u'')
+    mode = request.args.get('mode',u'hourly')
 
     if DBQuery().isValidObjectId(device_id):
         answers = DBQuery().get_answers_by_question_id(question_id, count, device_id=device_id)
     else:
         answers = DBQuery().get_answers_by_question_id(question_id, count)
     map = {}
+
     #statistic
     for i, ans in enumerate(answers):
-        created_time  = datetime.strftime(ans.created_time, "%Y%m%d%H")
+        #convert to local time
+        ans.created_time = ans.created_time + timedelta(hours=+8)
+        time_interval = "%Y%m%d%H"
+        if mode == "daily":
+            time_interval = "%Y%m%d"
+
+        if mode == "weekly":
+            time_interval = "%Y%m%U"
+            
+        if mode == "monthly":
+            time_interval = "%Y%m"
+
+        created_time  = datetime.strftime(ans.created_time, time_interval)
         ans.content= int(ans.content)
         if created_time in map:
             data = map[created_time]
