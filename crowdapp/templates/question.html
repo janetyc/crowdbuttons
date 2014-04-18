@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div id="question-block" class="item">
+	  <div id="question-area">{{ data.question.content }}</div>
+    <div id="answer-area">
+      {% for index in range(data.ans_list_range) %} 
+        <div class="ans"><input class="btn btn-primary btn-large btn-block" type="submit" value="{{ index+1 }}: {{ data.question.answer_list[index] }}"></div>
+      {% endfor %}
+    </div>  
+  </div>
+</div>
+{% endblock %}
