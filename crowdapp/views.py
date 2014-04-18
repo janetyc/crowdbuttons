@@ -68,6 +68,17 @@ def dashboard():
 
     return render_template('dashboard.html', data=data)
 
+@views.route('/question/<ObjectId:question_id>', methods=('GET','POST'))
+def question(question_id):
+    question = DBQuery().get_question_by_id(question_id)
+    ans_list = question.answer_list
+    data = {
+        'question': question,
+        'ans_list_range': len(question.answer_list)
+    }
+
+    return render_template('question.html', data=data)
+
 @views.route('/get_vis/<ObjectId:question_id>/<int:count>',methods=('GET','POST'))
 def get_vis(question_id, count):
     device_id = request.args.get('device_id', u'')

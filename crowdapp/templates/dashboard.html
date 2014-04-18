@@ -22,7 +22,7 @@
        	{% for q in data['questions'] %}
        	<ul class="item">
           <li>total answer count: {{q.total}} (<a href="{{ url_for('views.get_vis', question_id=q._id, count=q.total) }}">vis</a>)</li>
-       		<li>id: {{q._id}}</li>
+       		<li>id: <a href="{{ url_for('views.question', question_id=q._id)}}">{{q._id}}</a></li>
        		<li>content: {{q.content}}</li>
        		<li>answer_list: {{q.answer_list}}</li>
        		<li>device_list: {{q.device_list}}</li>
