@@ -22,7 +22,7 @@
           <h5>Your Answer: <span id="myAnswer"/></h5>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Correct</button>
+          <button id="submitBt" type="button" class="btn btn-primary">Correct</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Incorrect</button>
         </div>
       </div>
@@ -38,12 +38,38 @@
 <script>
   $(function() {
     var ans;
-    $( "input[type=submit]" )
-      .click(function( event ) {
+    $("input[type=submit]").click(function(event){
         ans = this.id.split("_")[1];
         $('#myAnswer').text(this.value);
         $('#myModal').modal('show');
-      });  
+      });
+
+    $("#submitBt").click(function(event){
+      
+      $.ajax({
+        type: "GET",
+        url: "/add_answer/{{ data.question._id }}/"+ans,
+
+        data: { "device_id": "",
+                "created_user": "web_user"
+        },
+
+        dataType: 'json', 
+
+        success: function(data) {
+          if(data['success'] == 1){
+            window.location = "/?message=Success"
+          }else{
+            window.location = "/?message=Fail"
+          }
+          
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          alert("Error");    
+        }
+      });
+    });
+
   });  
 </script>
 {% endblock %}

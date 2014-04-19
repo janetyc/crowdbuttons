@@ -18,8 +18,8 @@ def index():
         question = DBQuery().get_question_by_id(question_id)
 
         device_id = ans.get("device_id", None)
-        if device_id:
-            device = DBQuery().get_device_by_id(ans.device_id)
+        if device_id and DBQuery().isValidObjectId(device_id):
+            device = DBQuery().get_device_by_id(ans.device_id)            
             device_name = device.name
             device_location = device.location
         else:

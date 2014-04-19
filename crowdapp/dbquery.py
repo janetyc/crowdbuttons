@@ -20,8 +20,11 @@ class DBQuery(object):
         return str(device_id)
 
     def get_device_by_id(self, device_id):
-        device = db.Device.get_from_id(bson.ObjectId(device_id))
-        return device
+        if self.isValidObjectId(device_id):
+            device = db.Device.get_from_id(bson.ObjectId(device_id))
+            return device
+        else:
+            return None
 
     def get_last_devices(self, count=10):
         query = db.Device.find().sort("created_time", -1).limit(count)
