@@ -50,7 +50,6 @@ def index():
 def dashboard():
     devices = DBQuery().get_last_devices(5)
     for d in devices:
-        print str(d._id)
         count = DBQuery().get_answer_count_by_device_id(str(d._id))
         d[u'total'] = count
 

@@ -5,7 +5,8 @@
 	  <div id="question-area">{{ data.question.content }}</div>
     <div id="answer-area">
       {% for index in range(data.ans_list_range) %} 
-        <div class="ans"><input id="submit_{{index}}" class="btn btn-primary btn-large btn-block" type="submit" value="({{ index+1 }}) {{ data.question.answer_list[index] }}"/></div>
+        <div class="ans"><button id="ansBt_{{index}}" class="answer btn btn-primary btn-large btn-block" type="button">({{ index+1 }}) {{ data.question.answer_list[index] }}</button>
+        </div>
       {% endfor %}
     </div>
 
@@ -16,10 +17,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h5 class="modal-title">Question: {{ data.question.content }}</h5>
+          <h4 class="modal-title">My QA Report</h4>
         </div>
         <div class="modal-body">
-          <h5>Your Answer: <span id="myAnswer"/></h5>
+          <h5><b>Q:</b> {{ data.question.content }}</5>
+          <h5><b>A:</b> <span id="myAnswer"/></h5>
         </div>
         <div class="modal-footer">
           <button id="submitBt" type="button" class="btn btn-primary">Correct</button>
@@ -38,9 +40,9 @@
 <script>
   $(function() {
     var ans;
-    $("input[type=submit]").click(function(event){
+    $("button.answer").click(function(event){
         ans = this.id.split("_")[1];
-        $('#myAnswer').text(this.value);
+        $('#myAnswer').text($(this).text());
         $('#myModal').modal('show');
       });
 
