@@ -3,7 +3,7 @@
 <div class="row">
   {% for d in data %}
   <ul class="item">
-    <span class="name">{{ d.device_name }}</span> answer <span class="question">"{{ d.question }}"</span><br/>
+    <span class="name">{{ d.created_user }}</span> answer <span class="question">"{{ d.question }}"</span><br/>
     <span class="answer">{{ d.answer }}</span>
     <span class="location">at {{ d.location }}</span><span> ({{ d.created_time }})</span>
 	</ul>

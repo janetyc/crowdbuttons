@@ -20,11 +20,15 @@ def index():
         device_id = ans.get("device_id", None)
         if device_id and DBQuery().isValidObjectId(device_id):
             device = DBQuery().get_device_by_id(ans.device_id)            
-            device_name = device.name
-            device_location = device.location
+            created_user = device.name
+            location = device.location
         else:
-            device_name = "anonymous"
-            device_location = "unknown"
+            created_user = ans.get("created_user", "anonymous")
+            location = ans.get("location", "unknown")
+            if location == "":
+                location = "unknown"
+            if created_user == "":
+                created_user = "anonymous"
 
         if answer_index >= len(question.answer_list) or answer_index < 0:
             answer = "No answer!"
@@ -38,8 +42,8 @@ def index():
         data = {
             "question": question.content,
             "answer": answer,
-            "device_name": device_name,
-            "location": device_location,
+            "created_user": created_user,
+            "location": location,
             "created_time": created_time
         }
         data_list.append(data)
