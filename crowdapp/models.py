@@ -43,8 +43,9 @@ class Answer(Document):
         'question_id': unicode,
         'device_id': unicode,
         'content': unicode,
-        'created_time':datetime,
-        'created_user':unicode
+        'created_time': datetime,
+        'created_user': unicode,
+        'location': unicode
     }
     required_fields = ['question_id', 'content', 'created_time']
     default_values = {'created_time': datetime.utcnow()}

@@ -194,7 +194,8 @@ def add_answer(question_id, answer):
         'question_id': question_id,
         'device_id': request.args.get('device_id', u''),
         'content': answer,
-        'created_user': request.args.get('created_user', u'test')
+        'created_user': request.args.get('created_user', u'test'),
+        'location': request.args.get('location', u'')
     }
 
     question = DBQuery().get_question_by_id(question_id)

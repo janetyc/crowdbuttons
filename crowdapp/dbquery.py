@@ -67,6 +67,7 @@ class DBQuery(object):
         answer.device_id = input['device_id']
         answer.content = input['content']
         answer.created_user = input['created_user']
+        answer.location = input['location']
         answer.created_time = datetime.utcnow()
         answer_id = db.answer.insert(answer)
 
