@@ -5,9 +5,45 @@
 	  <div id="question-area">{{ data.question.content }}</div>
     <div id="answer-area">
       {% for index in range(data.ans_list_range) %} 
-        <div class="ans"><input class="btn btn-primary btn-large btn-block" type="submit" value="{{ index+1 }}: {{ data.question.answer_list[index] }}"></div>
+        <div class="ans"><input id="submit_{{index}}" class="btn btn-primary btn-large btn-block" type="submit" value="({{ index+1 }}) {{ data.question.answer_list[index] }}"/></div>
       {% endfor %}
-    </div>  
+    </div>
+
+    
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="modal-title">Question: {{ data.question.content }}</h5>
+        </div>
+        <div class="modal-body">
+          <h5>Your Answer: <span id="myAnswer"/></h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Correct</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Incorrect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  $(function() {
+    var ans;
+    $( "input[type=submit]" )
+      .click(function( event ) {
+        ans = this.id.split("_")[1];
+        $('#myAnswer').text(this.value);
+        $('#myModal').modal('show');
+      });  
+  });  
+</script>
 {% endblock %}
