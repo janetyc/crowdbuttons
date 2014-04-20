@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div id="stat">
+  	<div id="stat_title"><span class="glyphicon glyphicon-time"></span> Last Hour Summary <span class="glyphicon glyphicon-time"></span></div>
+  	{% for d in data.data %}
+  	<div class="block">
+  		<div class="stat_count">{{d.count}}</div>
+  		<div class="stat_answer">{{d.answer}}</div>
+  	</div>
+  	{% endfor %}
+  	<div id="report_link"><a href="{{ url_for('views.question', question_id=data.question_id)}}">I want to report!</a></div>
+  </div>
+</div>
+{% endblock %}
