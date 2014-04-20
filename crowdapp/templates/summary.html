@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
+  {% for d in data %}
   <div id="stat">
   	<div id="stat_title"><span class="glyphicon glyphicon-time"></span> Last Hour Summary <span class="glyphicon glyphicon-time"></span></div>
-  	{% for d in data.data %}
+  	<div id="stat_question"><b>Q:</b> {{ d.question }}</div>
+  	{% for item in d.data %}
   	<div class="block">
-  		<div class="stat_count">{{d.count}}</div>
-  		<div class="stat_answer">{{d.answer}}</div>
+  		<div class="stat_count">{{item.count}}</div>
+  		<div class="stat_answer">{{item.answer}}</div>
   	</div>
   	{% endfor %}
-  	<div id="report_link"><a href="{{ url_for('views.question', question_id=data.question_id)}}">I want to report!</a></div>
+  	<div id="report_link"><a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
   </div>
+  {% endfor %}
 </div>
 {% endblock %}

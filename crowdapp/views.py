@@ -6,8 +6,21 @@ from datetime import datetime, timedelta
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
 
+@views.route('/summary')
+def get_all_summary():
+    questions = DBQuery().get_last_questions(5)
+    data=[]
+    for q in questions:
+        data.append(get_summary_data(str(q._id)))
+
+    return render_template('summary.html', data=data)
+
 @views.route('/summary/<ObjectId:question_id>')
 def get_summary(question_id):
+    data = [get_summary_data(question_id)]
+    return render_template('summary.html', data=data)
+
+def get_summary_data(question_id):
     answers = DBQuery().get_answers_by_last_hr(question_id=question_id)
     question = DBQuery().get_question_by_id(question_id)
     list = []    
@@ -23,9 +36,10 @@ def get_summary(question_id):
     
     data = {
         "question_id": question_id,
+        "question": question.content,
         "data": datalist
     }
-    return render_template('summary.html', data=data)
+    return data
 
 @views.route('/')
 def index():
