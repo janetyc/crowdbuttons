@@ -11,7 +11,7 @@ def get_all_summary():
     questions = DBQuery().get_last_questions(5)
     data=[]
     for q in questions:
-        data.append(get_summary_data(str(q._id)))
+        data.append(get_summary_data(q._id))
 
     return render_template('summary.html', data=data)
 
@@ -23,6 +23,7 @@ def get_summary(question_id):
 def get_summary_data(question_id):
     answers = DBQuery().get_answers_by_last_hr(question_id=question_id)
     question = DBQuery().get_question_by_id(question_id)
+
     list = []    
     for ans in answers:
         list.append(ans.content)
@@ -39,6 +40,7 @@ def get_summary_data(question_id):
         "question": question.content,
         "data": datalist
     }
+
     return data
 
 @views.route('/')
