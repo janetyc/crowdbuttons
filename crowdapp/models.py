@@ -52,6 +52,24 @@ class Answer(Document):
     use_dot_notation = True
 
 
+@db.register
+class Comment(Document):
+    __database__ = app.config["DB_NAME"]
+    __collection__ = "comment"
+    structure = {
+        'question_id': unicode,
+        'device_id': unicode,
+        'content': unicode,
+        'created_time': datetime,
+        'created_user': unicode,
+        'location': unicode
+    }
+    required_fields = ['question_id', 'content', 'created_time']
+    default_values = {'created_time': datetime.utcnow()}
+    use_dot_notation = True
+
+
 db.register([Device])
 db.register([Question])
 db.register([Answer])
+db.register([Comment])

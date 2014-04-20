@@ -8,10 +8,14 @@
         <div class="ans"><button id="ansBt_{{index}}" class="answer btn btn-primary btn-large btn-block" type="button">({{ index+1 }}) {{ data.question.answer_list[index] }}</button>
         </div>
       {% endfor %}
+      <div class="comment">
+      <button type="button" class="comment btn btn-default btn-large btn-block"><span class="glyphicon glyphicon-pencil"></span> Write Comments</button>
+      </div>
     </div>
-
     
-  <!-- Modal -->
+  </div>
+  
+  <!-- Modal for answer -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -20,7 +24,7 @@
           <h4 class="modal-title">My QA Report</h4>
         </div>
         <div class="modal-body">
-          <h5><b>Q:</b> {{ data.question.content }}</5>
+          <h5><b>Q:</b> {{ data.question.content }}</h5>
           <h5><b>A:</b> <span id="myAnswer"/></h5>
         </div>
         <div class="modal-footer">
@@ -31,8 +35,26 @@
     </div>
   </div>
 
+  <!-- Modal for comment -->
+  <div class="modal fade" id="myCommentModal" tabindex="-1" role="dialog" aria-labelledby="myCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">My Comment</h4>
+        </div>
+        <div class="modal-body">
+          <h5><b>Name:</b> <input id="reporter" value="ninja"/></h5>
+          <h5><b>Comment:</b> <input id="myComment" /></h5>
+        </div>
+        <div class="modal-footer">
+          <button id="submitComment" type="button" class="btn btn-primary">Submit Comment!</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>  
 
-  </div>
 </div>
 {% endblock %}
 
@@ -40,23 +62,31 @@
 <script>
   $(function() {
     var ans;
+    var comment;
+    var reporter="web_user";
     var location="";
     if(getQueryVariable("location")) location = getQueryVariable("location");
 
+    //show answer modal to double check
     $("button.answer").click(function(event){
         ans = this.id.split("_")[1];
         $('#myAnswer').text($(this).text());
         $('#myModal').modal('show');
       });
 
+    //show comment modal to let user input his/her comment
+    $("button.comment").click(function(event){
+        $('#myCommentModal').modal('show');
+      });
+
+    //submit answer to server
     $("#submitBt").click(function(event){
-      
       $.ajax({
         type: "GET",
         url: "/add_answer/{{ data.question._id }}/"+ans,
 
         data: { "device_id": "",
-                "created_user": "web_user",
+                "created_user": reporter,
                 "location": location
         },
 
@@ -74,6 +104,42 @@
           alert("Error");    
         }
       });
+    });
+
+    //submit comment to server
+    $("#submitComment").click(function(event){
+      reporter = $("#reporter").val();
+      comment = $("#myComment").val();
+      
+      if(reporter == "")  reporter == "ninja";
+      if(comment == ""){
+        $('#myCommentModal').modal('hide');
+      }else{
+        $.ajax({
+          type: "GET",
+          url: "/add_comment/{{ data.question._id }}/"+comment,
+
+          data: { "device_id": "",
+                  "created_user": reporter,
+                  "location": location
+          },
+
+          dataType: 'json', 
+
+          success: function(data) {
+            if(data['success'] == 1){
+              window.location = "/"
+            }else{
+              window.location = "/?message=Fail"
+            }
+            
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Error");    
+          }
+        });
+      }
+      
     });
 
   });

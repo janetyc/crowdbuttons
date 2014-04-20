@@ -1,7 +1,7 @@
 import bson
 from datetime import datetime
 
-from crowdapp.models import Device, Question, Answer
+from crowdapp.models import Device, Question, Answer, Comment
 from crowdapp import db
 
 class DBQuery(object):
@@ -124,6 +124,27 @@ class DBQuery(object):
         result = [q for q in query]
         
         return result
+
+    def add_comment(self, input):
+        comment = Comment()
+        comment.question_id = input['question_id']
+        comment.device_id = input['device_id']
+        comment.content = input['content']
+        comment.created_user = input['created_user']
+        comment.location = input['location']
+        comment.created_time = datetime.utcnow()
+        comment_id = db.comment.insert(comment)
+
+        return str(comment_id)
+
+    def get_last_comments(self, count=10):
+        query = db.Comment.find().sort("created_time", -1).limit(count)
+        result = [q for q in query]
+
+        if len(result):
+            return result
+        else:
+            return []
 
     def isValidObjectId(self, obj_id):
         try:

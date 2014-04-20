@@ -63,10 +63,12 @@ def dashboard():
         q[u'total'] = count
 
     answers = DBQuery().get_last_answers(5)
+    comments = DBQuery().get_last_comments(5)
     data = {
         'devices': devices,
         'questions': questions,
-        'answers': answers
+        'answers': answers,
+        'comments': comments
     }
 
     return render_template('dashboard.html', data=data)
@@ -213,3 +215,19 @@ def add_answer(question_id, answer):
     return jsonify(success=1, data=answer_id)
     
 
+@views.route('/add_comment/<ObjectId:question_id>/<comment>', methods=('GET', 'POST'))
+def add_comment(question_id, comment):
+    input = {
+        'question_id': question_id,
+        'device_id': request.args.get('device_id', u''),
+        'content': comment,
+        'created_user': request.args.get('created_user', u'test'),
+        'location': request.args.get('location', u'')
+    }
+
+    question = DBQuery().get_question_by_id(question_id)
+    if not question:
+        return jsonify(success=0, data="", error="NOT SUCH QUESTION!!")
+
+    comment_id = DBQuery().add_comment(input)
+    return jsonify(success=1, data=comment_id)

@@ -19,10 +19,19 @@
 }
 
 .ans {
-    padding: 2px;
+  padding: 2px;
+}
+.comment {
+  padding: 2px; 
 }
 
+#myComment {
+  width: 99%;
+}
 
+#reporter {
+  width: 99%;
+}
 #question-area {
   margin: 2px;
   border: 1px dotted #dedede;
