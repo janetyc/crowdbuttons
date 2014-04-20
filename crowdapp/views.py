@@ -6,10 +6,31 @@ from datetime import datetime, timedelta
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
 
+@views.route('/summary/<ObjectId:question_id>')
+def get_summary(question_id):
+    answers = DBQuery().get_answers_by_last_hr(question_id=question_id)
+    question = DBQuery().get_question_by_id(question_id)
+    list = []    
+    for ans in answers:
+        list.append(ans.content)
+
+    datalist = []
+    for i, ans in enumerate(question.answer_list):
+        datalist.append({
+                "answer": ans,
+                "count": list.count(i)
+        })
+    
+    data = {
+        "question_id": question_id,
+        "data": datalist
+    }
+    return render_template('summary.html', data=data)
 
 @views.route('/')
 def index():
     answers = DBQuery().get_last_answers(10)
+
     data_list = []
     for ans in answers:
         answer_index = int(ans.content)

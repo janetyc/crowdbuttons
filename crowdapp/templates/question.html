@@ -93,11 +93,7 @@
         dataType: 'json', 
 
         success: function(data) {
-          if(data['success'] == 1){
-            window.location = "/"
-          }else{
-            window.location = "/?message=Fail"
-          }
+          window.location = "/summary/{{data.question._id}}";
           
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -127,12 +123,7 @@
           dataType: 'json', 
 
           success: function(data) {
-            if(data['success'] == 1){
-              window.location = "/"
-            }else{
-              window.location = "/?message=Fail"
-            }
-            
+            window.location = "/summary/{{data.question._id}}";
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("Error");    

@@ -3,8 +3,32 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+#stat_title {
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: .2em;
+}
+#report_link {
+  float: right;
+  text-align: right;
+  margin: 5px 3px;
+  padding: 2px;
+}
+
+.stat_count {
+  font-size: 3em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.stat_answer {
+  font-size: 1em;
+  text-align: center;
+}
 
 .item {
+    overflow: hidden;
     list-style: none;
     padding: 0.5em;
     margin: 1.4em 0;
@@ -44,6 +68,22 @@
     margin: 10px auto;
     width: 700px;
   }
+  #stat {
+    overflow: hidden;
+    margin: 10px auto;
+    width: 426px;
+    align: center;
+  }
+
+  .block {
+    float: left;
+    border: 1px solid #dedede;
+    text-align: center;
+    padding: 3px;
+    margin: 3px;
+    width: 100px;
+  }
+
 }
 
 @media (max-width: 767px) {
@@ -51,7 +91,21 @@
     margin: 10px auto;
     width: 90%;
   }
+  #stat {
+    overflow: hidden;
+    margin: 10px auto;
+    width: 306px;
+    align: center;
+  }
 
+  .block {
+    float: left;
+    border: 1px solid #dedede;
+    text-align: center;
+    padding: 2px;
+    margin: 2px;
+    width: 72px;
+  }
 }
 
 

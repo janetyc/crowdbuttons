@@ -1,5 +1,5 @@
 import bson
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from crowdapp.models import Device, Question, Answer, Comment
 from crowdapp import db
@@ -86,6 +86,37 @@ class DBQuery(object):
         else:
             return []
 
+    def get_answers_by_last_hr(self, *args, **kwargs):
+        question_id = kwargs.get("question_id")
+        device_id = kwargs.get("device_id")
+        now = datetime.utcnow()
+        last_hr = now - timedelta(hours=1)
+        
+        return self.get_answers_by_range(last_hr, now, device_id=device_id, question_id=question_id)
+
+    def get_answers_by_range(self, oldtime, newtime, *args, **kwargs):
+        question_id = kwargs.get("question_id")
+        device_id = kwargs.get("device_id")
+        query_str = {
+            "created_time":{
+                '$gte': oldtime,
+                '$lt': newtime
+            }
+        }
+        if device_id:
+            query_str["device_id"] = device_id
+
+        if question_id:
+            query_str["question_id"] = question_id
+
+        query = db.Answer.find(query_str, network_timeout=1)
+        result = [q for q in query]
+
+        if len(result):
+            return result
+        else:
+            return []
+
     def get_answer_count_by_device_id(self, device_id, *args, **kwargs):
         query_str = {
             "device_id": device_id
@@ -139,6 +170,28 @@ class DBQuery(object):
 
     def get_last_comments(self, count=10):
         query = db.Comment.find().sort("created_time", -1).limit(count)
+        result = [q for q in query]
+
+        if len(result):
+            return result
+        else:
+            return []
+
+    def get_comments_by_last_hr(self, *args, **kwargs):
+        now = datetime.utcnow()
+        last_hr = now - timedelta(hours=1)
+
+        return self.get_comments_by_range(last_hr, now)
+
+    def get_comments_by_range(self, oldtime, newtime, *args, **kwargs):
+        query_str = {
+            "created_time":{
+                '$gte': oldtime,
+                '$lt': newtime
+            }
+        }
+    
+        query = db.Comment.find(query_str, network_timeout=1)
         result = [q for q in query]
 
         if len(result):

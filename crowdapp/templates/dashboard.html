@@ -27,6 +27,8 @@
    		<li>device_list: {{q.device_list}}</li>
 			<li>created by: {{q.created_user}}</li>
       <li>created time: {{q.created_time}}</li>
+      <li><a href="{{ url_for('views.question', question_id=q._id)}}">web reporting</a></li>
+      <li><a href="{{ url_for('views.get_summary', question_id=q._id)}}">summary</a></li>
 		</ul>
     {% endfor %}      
   </div>
