@@ -5,7 +5,7 @@
 	  <div id="question-area">{{ data.question.content }}
     <div id="question_location"><i class="fa fa-map-marker"></i> 
     <span id="location_label">
-      {% if data.location: %}
+      {% if data.location %}
         {{ data.location }}
       {% else %}
         Anywhere
@@ -23,7 +23,7 @@
       <button type="button" class="comment btn btn-default btn-large btn-block"><i class="fa fa-pencil fa-fw"></i> Write Comments</button>
       </div>
     </div>
-    {% if data.location: %}
+    {% if data.location %}
     <div id="summary_link"><a href="{{ url_for('views.get_summary', question_id=data.question._id) }}?location={{data.location}}">See summary</a></div>
     {% else %}
     <div id="summary_link"><a href="{{ url_for('views.get_summary', question_id=data.question._id) }}">See summary</a></div>

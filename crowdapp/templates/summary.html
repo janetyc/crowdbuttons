@@ -7,7 +7,7 @@
   	<div id="stat_question"><b>Q:</b> {{ d.question }}
 	<div id="stat_location"><i class="fa fa-map-marker"></i> 
 	<span id="stat_location_label">
-	{% if data.location: %}
+	{% if d.location %}
     	{{ d.location }}
     {% else %}
         All locations
@@ -21,9 +21,9 @@
   		<div class="stat_answer">{{item.answer}}</div>
   	</div>
   	{% endfor %}
-  	{% if data.location: %}
+  	{% if d.location %}
   	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}?location={{d.location}}">I want to report!</a></div>
-  	{% else: %}
+  	{% else %}
   	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
   	{% endif %}
   </div>
