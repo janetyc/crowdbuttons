@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  {% for d in data %}
+  <div class="col-lg-4">
+  	 <ul class="item">
+  		<h4>{{ d.location }}</h4>
+  		{% for item in d.data %}
+  		<div class="mini-block">
+  			<div>{{item.count}}</div>
+  			<div>{{item.answer}}</div>
+  		</div>
+  		{% endfor %}
+  	</ul>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}
