@@ -4,7 +4,11 @@
   {% for d in data %}
   <div id="stat">
   	<div id="stat_title"><span class="glyphicon glyphicon-time"></span> Last Hour Summary <span class="glyphicon glyphicon-time"></span></div>
-  	<div id="stat_question"><b>Q:</b> {{ d.question }}</div>
+  	<div id="stat_question"><b>Q:</b> {{ d.question }}
+	<div id="stat_location"><i class="fa fa-map-marker"></i> 
+	<span id="location_label">{{ d.location }}</span>
+	</div>
+  	</div>
   	{% for item in d.data %}
   	<div class="block">
   		<div class="stat_count">{{item.count}}</div>

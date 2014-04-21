@@ -2,7 +2,18 @@
 {% block content %}
 <div class="row">
   <div id="question-block" class="item">
-	  <div id="question-area">{{ data.question.content }}</div>
+	  <div id="question-area">{{ data.question.content }}
+    <div id="question_location"><i class="fa fa-map-marker"></i> 
+    <span id="location_label">
+      {% if location: %}
+        {{ data.location }}
+      {% else %}
+        All locations
+      {% endif %}
+    </span>
+    </div>
+    </div>
+    
     <div id="answer-area">
       {% for index in range(data.ans_list_range) %} 
         <div class="ans"><button id="ansBt_{{index}}" class="answer btn btn-primary btn-large btn-block" type="button">({{ index+1 }}) {{ data.question.answer_list[index] }}</button>

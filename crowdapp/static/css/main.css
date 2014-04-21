@@ -3,6 +3,17 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+#stat_description {
+  overflow: hidden;
+  width: 100%;
+}
+#stat_location {
+  float: right;
+  text-align: right;
+  margin-top: .5em;
+  font-size: .8em;
+  color: #119E84;
+}
 #stat_title {
   text-align: center;
   font-size: 1.4em;
@@ -11,6 +22,8 @@
   border-bottom: 1px dotted #dedede;
 }
 #stat_question {
+  width: 100%;
+  float: left;
   font-size: 1.1em;
   padding: .2em;
 }
@@ -73,7 +86,13 @@
   padding: 7px;
   font-size: 1.5em;
 }
-
+#question_location {
+  float: right;
+  text-align: right;
+  margin-top: 1.3em;
+  font-size: .6em;
+  color: #119E84;
+}
 @media (min-width: 768px) {
   #question-block{
     margin: 10px auto;

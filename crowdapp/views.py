@@ -44,10 +44,13 @@ def get_summary_data(question_id, *args, **kwargs):
                 "count": list.count(i)
         })
     
+    if not location:
+        location = "All locations"
     data = {
         "question_id": question_id,
         "question": question.content,
-        "data": datalist
+        "data": datalist,
+        "location": location
     }
 
     return data
@@ -121,11 +124,13 @@ def dashboard():
 
 @views.route('/question/<ObjectId:question_id>', methods=('GET','POST'))
 def question(question_id):
+    location = request.args.get('location', u'')
     question = DBQuery().get_question_by_id(question_id)
     ans_list = question.answer_list
     data = {
         'question': question,
-        'ans_list_range': len(question.answer_list)
+        'ans_list_range': len(question.answer_list),
+        'location': location
     }
 
     return render_template('question.html', data=data)
