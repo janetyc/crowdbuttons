@@ -6,22 +6,31 @@ from datetime import datetime, timedelta
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
 
-@views.route('/summary')
+@views.route('/summary', methods=('GET','POST'))
 def get_all_summary():
+    device_id = request.args.get('device_id', u'')
+    location = request.args.get('location', u'')
+
     questions = DBQuery().get_last_questions(5)
     data=[]
     for q in questions:
-        data.append(get_summary_data(q._id))
+        data.append(get_summary_data(q._id, device_id=device_id, location=location))
 
     return render_template('summary.html', data=data)
 
-@views.route('/summary/<ObjectId:question_id>')
+@views.route('/summary/<ObjectId:question_id>', methods=('GET','POST'))
 def get_summary(question_id):
-    data = [get_summary_data(question_id)]
+    device_id = request.args.get('device_id', u'')
+    location = request.args.get('location', u'')
+
+    data = [get_summary_data(question_id, device_id=device_id, location=location)]
     return render_template('summary.html', data=data)
 
-def get_summary_data(question_id):
-    answers = DBQuery().get_answers_by_last_hr(question_id=question_id)
+def get_summary_data(question_id, *args, **kwargs):
+    device_id = kwargs.get("device_id","")
+    location = kwargs.get("location","")
+    answers = DBQuery().get_answers_by_last_hr(question_id=question_id, 
+                                               device_id=device_id, location=location)
     question = DBQuery().get_question_by_id(question_id)
 
     list = []    

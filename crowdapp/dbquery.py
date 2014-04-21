@@ -26,6 +26,18 @@ class DBQuery(object):
         else:
             return None
 
+    def get_devices_by_location(self, location, count=10):
+        query_str = {
+            "location": location
+        }
+        query = db.Device.find(query_str, network_timeout=1).sort("created_time", -1).limit(count)
+        result = [q for q in query]
+
+        if len(result):
+            return result
+        else:
+            return []
+
     def get_last_devices(self, count=10):
         query = db.Device.find().sort("created_time", -1).limit(count)
         result = [q for q in query]
@@ -89,14 +101,17 @@ class DBQuery(object):
     def get_answers_by_last_hr(self, *args, **kwargs):
         question_id = kwargs.get("question_id")
         device_id = kwargs.get("device_id")
+        location = kwargs.get("location")
         now = datetime.utcnow()
         last_hr = now - timedelta(hours=1)
         
-        return self.get_answers_by_range(last_hr, now, device_id=device_id, question_id=question_id)
+        return self.get_answers_by_range(last_hr, now, device_id=device_id, 
+                                         question_id=question_id, location=location)
 
     def get_answers_by_range(self, oldtime, newtime, *args, **kwargs):
         question_id = kwargs.get("question_id")
         device_id = kwargs.get("device_id")
+        location = kwargs.get("location")
         query_str = {
             "created_time":{
                 '$gte': oldtime,
@@ -105,6 +120,13 @@ class DBQuery(object):
         }
         if device_id:
             query_str["device_id"] = device_id
+
+        elif location:
+            devices = self.get_devices_by_location(location)
+
+            query_str["$or"] = [{ "location": location }]
+            for d in devices:
+                query_str["$or"].append({"device_id": str(d._id)})
 
         if question_id:
             query_str["question_id"] = question_id
