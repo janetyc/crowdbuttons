@@ -8,7 +8,7 @@
       {% if data.location: %}
         {{ data.location }}
       {% else %}
-        All locations
+        Anywhere
       {% endif %}
     </span>
     </div>
@@ -36,9 +36,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">My QA Report</h4>
+          <h4 class="modal-title">My QA Report <span style="color: #119E84; font-size: .7em; margin-left: .5em;"><i class="fa fa-map-marker"></i> <span id="answer_location_label"></span></span></h4>
+          
         </div>
         <div class="modal-body">
+
           <h5><b>Q:</b> {{ data.question.content }}</h5>
           <h5><b>A:</b> <span id="myAnswer"/></h5>
         </div>
@@ -56,7 +58,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">My Comment</h4>
+          <h4 class="modal-title">My Comment <span style="color: #119E84; font-size: .7em; margin-left: .5em;"><i class="fa fa-map-marker"></i> <span id="comment_location_label"></span></span></h4>
         </div>
         <div class="modal-body">
           <h5><b>Name:</b> <input id="reporter" value="ninja"/></h5>
@@ -79,7 +81,7 @@
           <h4 class="modal-title">My Location</h4>
         </div>
         <div class="modal-body">
-          <h5><b>Location:</b> <input id="location_input" value=""/></h5>
+          <h5><i class="fa fa-map-marker"></i> <input id="location_input" value=""/></h5>
         </div>
         <div class="modal-footer">
           <button id="submitLocation" type="button" class="btn btn-primary">Save Location!</button>
@@ -119,17 +121,29 @@
     $("button.answer").click(function(event){
         ans = this.id.split("_")[1];
         $('#myAnswer').text($(this).text());
+        if(location) {
+          $('#answer_location_label').text(location);
+        }else{
+          $('#answer_location_label').text("Anywhere");
+        }
+        
         $('#myModal').modal('show');
       });
 
     //show comment modal to let user input his/her comment
     $("button.comment").click(function(event){
+        if(location) {
+          $('#comment_location_label').text(location);
+        }else{
+          $('#comment_location_label').text("Anywhere");
+        }
+        
         $('#myCommentModal').modal('show');
       });
 
     //submit answer to server
     $("#submitBt").click(function(event){
-      if(location == "All locations") location="";
+      if(location == "Anywhere") location="";
 
       $.ajax({
         type: "GET",
@@ -158,7 +172,7 @@
 
     //submit comment to server
     $("#submitComment").click(function(event){
-      if(location == "All locations") location="";
+      if(location == "Anywhere") location="";
       reporter = $("#reporter").val();
       comment = $("#myComment").val();
       
