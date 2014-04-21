@@ -112,6 +112,10 @@ class DBQuery(object):
         question_id = kwargs.get("question_id")
         device_id = kwargs.get("device_id")
         location = kwargs.get("location")
+
+        if type(question_id) == str:
+            question_id = bson.ObjectId(question_id)
+
         query_str = {
             "created_time":{
                 '$gte': oldtime,
@@ -147,6 +151,9 @@ class DBQuery(object):
         return count
         
     def get_answer_count_by_question_id(self, question_id, *args, **kwargs):
+        if type(question_id) == str:
+            question_id = bson.ObjectId(question_id)
+
         device_id = kwargs.get("device_id")
         if device_id:
             query_str = {
@@ -162,6 +169,9 @@ class DBQuery(object):
         return count
 
     def get_answers_by_question_id(self, question_id, count, *args, **kwargs):
+        if type(question_id) == str:
+            question_id = bson.ObjectId(question_id)
+
         device_id = kwargs.get("device_id")
         if device_id:
             query_str = {

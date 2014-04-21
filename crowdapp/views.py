@@ -6,6 +6,18 @@ from datetime import datetime, timedelta
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
 
+#only for space monitoring application
+#question_id = 53267e1908df4f000247d845
+@views.route('/location')
+def get_location_status():
+    question_id = "53267e1908df4f000247d845"
+    rooms = ["R310", "R324/R326", "R340"]
+    data=[]
+    for room in rooms:
+        data.append(get_summary_data(question_id,location=room))
+
+    return render_template('location_status.html', data=data)
+
 @views.route('/summary', methods=('GET','POST'))
 def get_all_summary():
     device_id = request.args.get('device_id', u'')
