@@ -9,7 +9,7 @@
         </div>
       {% endfor %}
       <div class="comment">
-      <button type="button" class="comment btn btn-default btn-large btn-block"><span class="glyphicon glyphicon-pencil"></span> Write Comments</button>
+      <button type="button" class="comment btn btn-default btn-large btn-block"><i class="fa fa-pencil fa-fw"></i> Write Comments</button>
       </div>
     </div>
     <div id="summary_link"><a href="{{ url_for('views.get_summary', question_id=data.question._id)}}">See summary</a></div>

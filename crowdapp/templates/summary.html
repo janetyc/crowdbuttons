@@ -11,7 +11,7 @@
   		<div class="stat_answer">{{item.answer}}</div>
   	</div>
   	{% endfor %}
-  	<div id="report_link"><a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
+  	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i> <a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
   </div>
   {% endfor %}
 </div>
