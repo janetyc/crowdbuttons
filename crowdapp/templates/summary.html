@@ -6,7 +6,13 @@
   	<div id="stat_title"><span class="glyphicon glyphicon-time"></span> Last Hour Summary <span class="glyphicon glyphicon-time"></span></div>
   	<div id="stat_question"><b>Q:</b> {{ d.question }}
 	<div id="stat_location"><i class="fa fa-map-marker"></i> 
-	<span id="location_label">{{ d.location }}</span>
+	<span id="stat_location_label">
+	{% if data.location: %}
+    	{{ d.location }}
+    {% else %}
+        All locations
+    {% endif %}
+	</span>
 	</div>
   	</div>
   	{% for item in d.data %}
@@ -15,7 +21,11 @@
   		<div class="stat_answer">{{item.answer}}</div>
   	</div>
   	{% endfor %}
-  	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i> <a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
+  	{% if data.location: %}
+  	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}?location={{d.location}}">I want to report!</a></div>
+  	{% else: %}
+  	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
+  	{% endif %}
   </div>
   {% endfor %}
 </div>

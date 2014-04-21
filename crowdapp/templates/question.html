@@ -5,7 +5,7 @@
 	  <div id="question-area">{{ data.question.content }}
     <div id="question_location"><i class="fa fa-map-marker"></i> 
     <span id="location_label">
-      {% if location: %}
+      {% if data.location: %}
         {{ data.location }}
       {% else %}
         All locations
@@ -23,7 +23,11 @@
       <button type="button" class="comment btn btn-default btn-large btn-block"><i class="fa fa-pencil fa-fw"></i> Write Comments</button>
       </div>
     </div>
-    <div id="summary_link"><a href="{{ url_for('views.get_summary', question_id=data.question._id)}}">See summary</a></div>
+    {% if data.location: %}
+    <div id="summary_link"><a href="{{ url_for('views.get_summary', question_id=data.question._id) }}?location={{data.location}}">See summary</a></div>
+    {% else %}
+    <div id="summary_link"><a href="{{ url_for('views.get_summary', question_id=data.question._id) }}">See summary</a></div>
+    {% endif %}
   </div>
   
   <!-- Modal for answer -->
@@ -66,6 +70,25 @@
     </div>
   </div>  
 
+  <!-- Modal for location -->
+  <div class="modal fade" id="myLocationModal" tabindex="-1" role="dialog" aria-labelledby="myLocationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">My Location</h4>
+        </div>
+        <div class="modal-body">
+          <h5><b>Location:</b> <input id="location_input" value=""/></h5>
+        </div>
+        <div class="modal-footer">
+          <button id="submitLocation" type="button" class="btn btn-primary">Save Location!</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div> 
+
 </div>
 {% endblock %}
 
@@ -75,8 +98,22 @@
     var ans;
     var comment;
     var reporter="web_user";
-    var location="";
-    if(getQueryVariable("location")) location = getQueryVariable("location");
+    var location="{{ data.location }}";
+
+
+    //show location modal to let user input location
+    $("#location_label").click(function(event) {
+      $('#location_input').val($('#location_label').text().trim());
+      $('#myLocationModal').modal('show');
+    });
+
+    //submit location
+    $("#submitLocation").click(function(event){
+      location = $('#location_input').val();
+      $('#location_label').text(location);
+      $('#summary_link a').attr("href", "{{ url_for('views.get_summary', question_id=data.question._id) }}?location="+location)
+      $('#myLocationModal').modal('hide');
+    });
 
     //show answer modal to double check
     $("button.answer").click(function(event){
@@ -92,6 +129,8 @@
 
     //submit answer to server
     $("#submitBt").click(function(event){
+      if(location == "All locations") location="";
+
       $.ajax({
         type: "GET",
         url: "/add_answer/{{ data.question._id }}/"+ans,
@@ -104,7 +143,11 @@
         dataType: 'json', 
 
         success: function(data) {
-          window.location = "/summary/{{data.question._id}}";
+          if(location){
+            window.location = "/summary/{{data.question._id}}?location="+location;  
+          }else{
+            window.location = "/summary/{{data.question._id}}";
+          }
           
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -115,6 +158,7 @@
 
     //submit comment to server
     $("#submitComment").click(function(event){
+      if(location == "All locations") location="";
       reporter = $("#reporter").val();
       comment = $("#myComment").val();
       
@@ -134,7 +178,11 @@
           dataType: 'json', 
 
           success: function(data) {
-            window.location = "/summary/{{data.question._id}}";
+            if(location){
+              window.location = "/summary/{{data.question._id}}?location="+location;  
+            }else{
+              window.location = "/summary/{{data.question._id}}";
+            }
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("Error");    
@@ -155,6 +203,9 @@
       if(pair[0] == variable){return pair[1];}
     }
     return(false);
-  }  
+  }
+  function trim(s){ 
+    return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
+  }
 </script>
 {% endblock %}

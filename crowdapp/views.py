@@ -44,8 +44,6 @@ def get_summary_data(question_id, *args, **kwargs):
                 "count": list.count(i)
         })
     
-    if not location:
-        location = "All locations"
     data = {
         "question_id": question_id,
         "question": question.content,

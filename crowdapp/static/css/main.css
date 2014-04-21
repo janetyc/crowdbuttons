@@ -3,6 +3,12 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+#location_label {
+  cursor:pointer;
+}
+#location_label:hover{
+  border-bottom: 1px solid #119E84;
+}
 #stat_description {
   overflow: hidden;
   width: 100%;
