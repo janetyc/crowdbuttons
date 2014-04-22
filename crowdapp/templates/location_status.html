@@ -5,15 +5,31 @@
   <div class="col-lg-4">
   	 <ul class="item">
   		<h4>{{ d.location }}</h4>
+  		<div id="current-status-block">
+  			{% if d.status == "Meeting" %}
+  			<div class="room-status room-status-meeting"></div>
+  			<div id="current-status">Meeting</div>
+  			{% elif d.status == "Course" %}
+  			<div class="room-status room-status-course"></div>
+  			<div id="current-status">Course</div>
+  			{% elif d.status == "Self-study" %}
+  			<div class="room-status room-status-study"></div>
+  			<div id="current-status">Self-study</div>
+  			{% else %}
+			<div class="room-status room-status-empty"></div>
+  			<div id="current-status">Empty</div>
+  			{% endif %}
+  		</div>
+  		
   		{% for item in d.data %}
   		<div class="mini-block">
   			<div>{{item.count}}</div>
   			<div>{{item.answer}}</div>
   		</div>
   		{% endfor %}
+  		
   	</ul>
   </div>
   {% endfor %}
-
 </div>
 {% endblock %}

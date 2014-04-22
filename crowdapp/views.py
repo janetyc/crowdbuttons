@@ -14,7 +14,14 @@ def get_location_status():
     rooms = ["R310", "R324/R326", "R340"]
     data=[]
     for room in rooms:
-        data.append(get_summary_data(question_id,location=room))
+        result = get_summary_data(question_id,location=room)
+        status = get_highest_status(result["data"])
+        if status:
+            result["status"] = status
+        else: #default=empty, should modify to prior schedule(?)
+            result["status"] = u'Empty'
+
+        data.append(result)
 
     return render_template('location_status.html', data=data)
 
@@ -159,6 +166,7 @@ def get_vis(question_id, count):
 
     return render_template('visualization.html', data=data)
 
+# --- API -----
 @views.route('/get_answers/<ObjectId:question_id>/<int:count>', methods=('GET','POST'))
 def get_answers(question_id, count):
     device_id = request.args.get('device_id', u'')
@@ -292,3 +300,16 @@ def add_comment(question_id, comment):
 
     comment_id = DBQuery().add_comment(input)
     return jsonify(success=1, data=comment_id)
+
+# -----------------------------
+def get_highest_status(data):
+    list = []
+    for d in data:
+        list.append((d["count"], d["answer"]))
+        
+    list.sort(reverse=True)
+
+    if list[0][0] == 0:
+        return None
+    else:
+        return list[0][1]
