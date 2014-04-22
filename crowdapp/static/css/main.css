@@ -3,11 +3,15 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+.item h4 {
+  font-weight: bold;
+}
 #current-status-block{
   padding: .2em;
   border: 1px solid #dedede;
 }
 #current-status{
+  font-weight: bold;
   text-align: center;
   font-size: 1.2em;
 }
@@ -139,9 +143,9 @@
     float: left;
     border: 1px solid #dedede;
     text-align: center;
-    padding: 3px;
-    margin: 3px;
-    width: 80px;
+    padding: .2em;
+    margin: 0em;
+    width: 25%;
   }
 
   .room-status{
@@ -188,9 +192,9 @@
     float: left;
     border: 1px solid #dedede;
     text-align: center;
-    padding: 3px;
-    margin: 3px;
-    width: 80px;
+    padding: .2em;
+    margin: 0em;
+    width: 25%;
   }
   .room-status{
     height: 175px;
@@ -233,9 +237,9 @@
     float: left;
     border: 1px solid #dedede;
     text-align: center;
-    padding: 3px;
-    margin: 3px;
-    width: 70px;
+    padding: .2em;
+    margin: 0em;
+    width: 25%;
   }
   .room-status{
     height: 175px;

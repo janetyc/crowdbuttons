@@ -8,7 +8,7 @@ views = Blueprint('views', __name__, template_folder='templates')
 
 #only for space monitoring application
 #question_id = 53267e1908df4f000247d845
-@views.route('/location')
+@views.route('/status')
 def get_location_status():
     question_id = "53267e1908df4f000247d845"
     rooms = ["R310", "R324/R326", "R340"]
@@ -114,7 +114,7 @@ def index():
         }
         data_list.append(data)
 
-    return render_template('index.html', data=data_list)
+    return render_template('feeds.html', data=data_list)
 
 @views.route('/dashboard')
 def dashboard():
