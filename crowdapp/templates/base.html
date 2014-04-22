@@ -43,7 +43,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/summary">Summary</a></li>
             <li><a href="/status">Room Status</a></li>
           </ul>
@@ -72,6 +72,16 @@
     <script src="/static/js/vendor/bootstrap.min.js"></script>
 	<script src="/static/js/main.js"></script>
     {% endblock %}
+    <script>
+        var url = window.location;
+        // Will only work if string in href matches with location
+        $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+
+        // Will also work for relative and absolute hrefs
+        $('ul.nav a').filter(function() {
+            return this.href == url;
+        }).parent().addClass('active');
+    </script>
 
     {% block extra_js %}
     {% endblock %}
