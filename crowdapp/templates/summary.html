@@ -3,7 +3,7 @@
 <div class="row">
   {% for d in data %}
   <div id="stat">
-  	<div id="stat_title"><span class="glyphicon glyphicon-time"></span> Last 12 Hrs Contributions <span class="glyphicon glyphicon-time"></span></div>
+  	<div id="stat_title"><span class="glyphicon glyphicon-time"></span> Last 12hrs Contributions <span class="glyphicon glyphicon-time"></span></div>
   	<div id="stat_question"><b>Q:</b> {{ d.question }}
 	<div id="stat_location"><i class="fa fa-map-marker"></i> 
 	<span id="stat_location_label">
@@ -24,7 +24,7 @@
   	{% if d.location %}
   	<div class="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}?location={{d.location}}">I want to report!</a></div>
   	{% else %}
-  	<div id="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
+  	<div class="report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}">I want to report!</a></div>
   	{% endif %}
   </div>
   {% endfor %}
