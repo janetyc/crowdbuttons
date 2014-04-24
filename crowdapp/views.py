@@ -21,8 +21,9 @@ def get_location_status():
     rooms = ["R310", "R324/R326", "R340"]
     data=[]
     for room in rooms:
-        result = get_summary_data(question_id,location=room)
-        status = get_highest_status(result["data"])
+        result = get_summary_data(question_id,location=room, mode="day")
+        last_hr_data = get_summary_data(question_id,location=room, mode="hour")
+        status = get_highest_status(last_hr_data["data"])
         if status:
             result["status"] = status
         else: #default=empty, should modify to prior schedule(?)
@@ -55,8 +56,14 @@ def get_summary(question_id):
 def get_summary_data(question_id, *args, **kwargs):
     device_id = kwargs.get("device_id","")
     location = kwargs.get("location","")
-    answers = DBQuery().get_answers_by_last_day(question_id=question_id,
-                                                device_id=device_id, location=location)
+    mode = kwargs.get("mode","day")
+    if mode == "hour":
+        answers = DBQuery().get_answers_by_last_hr(question_id=question_id,
+                                                   device_id=device_id, location=location)
+    else:
+        answers = DBQuery().get_answers_by_last_day(question_id=question_id,
+                                                    device_id=device_id, location=location)
+
     question = DBQuery().get_question_by_id(question_id)
 
     list = []    

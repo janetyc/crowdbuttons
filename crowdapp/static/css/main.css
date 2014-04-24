@@ -97,7 +97,7 @@
 }
 
 
-#summary-title{
+.summary-title{
   color: #ffffff;
   background-color: #666666;
   font-size: .9em;
@@ -208,7 +208,7 @@
 }
 #question-area {
   margin: 2px;
-  border: 1px dotted #c1c1c1;
+  border: 1px dashed #c1c1c1;
   padding: 7px;
   font-size: 1.5em;
 }
