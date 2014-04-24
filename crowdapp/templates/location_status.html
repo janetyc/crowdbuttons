@@ -5,6 +5,8 @@
   <div class="col-lg-4">
   	 <ul class="item">
   		<h4>{{ d.location }}</h4>
+  		<div class="status_report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}?location={{d.location}}">I want to report!</a></div>
+
   		<div id="current-status-block">
   			{% if d.status == "Meeting" %}
   			<div class="room-status room-status-meeting"></div>
@@ -21,13 +23,15 @@
   			{% endif %}
   		</div>
   		
+  		<div id="daily-summary">
+  		<div id="summary-title">Last 12hrs Contributions</div>
   		{% for item in d.data %}
-  		<div class="mini-block">
-  			<div>{{item.count}}</div>
-  			<div>{{item.answer}}</div>
-  		</div>
+		<div class="mini-block">
+			<div>{{item.count}}</div>
+			<div>{{item.answer}}</div>
+		</div>	
   		{% endfor %}
-  		
+  		</div>
   	</ul>
   </div>
   {% endfor %}

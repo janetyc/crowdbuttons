@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  <div id="question-block" class="item">
+  <div id="question-block" class="item gray">
 	  <div id="question-area">{{ data.question.content }}
     <div id="question_location"><i class="fa fa-map-marker"></i> 
     <span id="location_label">
@@ -16,11 +16,11 @@
     
     <div id="answer-area">
       {% for index in range(data.ans_list_range) %} 
-        <div class="ans"><button id="ansBt_{{index}}" class="answer btn btn-primary btn-large btn-block" type="button">({{ index+1 }}) {{ data.question.answer_list[index] }}</button>
+        <div class="ans"><button id="ansBt_{{index}}" class="answer btn btn-large btn-block answer-btn-color-{{index}}" type="button">({{ index+1 }}) {{ data.question.answer_list[index] }}</button>
         </div>
       {% endfor %}
       <div class="comment">
-      <button type="button" class="comment btn btn-default btn-large btn-block"><i class="fa fa-pencil fa-fw"></i> Write Comments</button>
+      <button type="button" class="comment btn btn-large btn-block comment-btn-color"><i class="fa fa-pencil fa-fw"></i> Write Comments</button>
       </div>
     </div>
     {% if data.location %}

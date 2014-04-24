@@ -1,5 +1,5 @@
 from flask import Blueprint, Flask, Response, request, render_template, redirect, url_for, jsonify
-from crowdapp import app
+from crowdapp import app, env
 from crowdapp.dbquery import DBQuery
 from datetime import datetime, timedelta
 
@@ -8,6 +8,13 @@ views = Blueprint('views', __name__, template_folder='templates')
 
 #only for space monitoring application
 #question_id = 53267e1908df4f000247d845
+@views.route('/')
+def index():
+    if(env == "PRODUCTION" or env == "DEBUG"):
+        return redirect(url_for('views.get_location_status'))
+    else:
+        return redirect(url_for('views.feeds'))
+
 @views.route('/status')
 def get_location_status():
     question_id = "53267e1908df4f000247d845"
@@ -48,8 +55,8 @@ def get_summary(question_id):
 def get_summary_data(question_id, *args, **kwargs):
     device_id = kwargs.get("device_id","")
     location = kwargs.get("location","")
-    answers = DBQuery().get_answers_by_last_hr(question_id=question_id, 
-                                               device_id=device_id, location=location)
+    answers = DBQuery().get_answers_by_last_day(question_id=question_id,
+                                                device_id=device_id, location=location)
     question = DBQuery().get_question_by_id(question_id)
 
     list = []    
@@ -72,8 +79,8 @@ def get_summary_data(question_id, *args, **kwargs):
 
     return data
 
-@views.route('/')
-def index():
+@views.route('/feeds')
+def feeds():
     answers = DBQuery().get_last_answers(10)
 
     data_list = []

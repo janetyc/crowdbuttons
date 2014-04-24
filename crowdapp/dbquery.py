@@ -108,6 +108,16 @@ class DBQuery(object):
         return self.get_answers_by_range(last_hr, now, device_id=device_id, 
                                          question_id=question_id, location=location)
 
+    def get_answers_by_last_day(self, *args, **kwargs):
+        question_id = kwargs.get("question_id")
+        device_id = kwargs.get("device_id")
+        location = kwargs.get("location")
+        now = datetime.utcnow()
+        last_hr = now - timedelta(days=1)
+
+        return self.get_answers_by_range(last_hr, now, device_id=device_id,
+                                         question_id=question_id, location=location)
+    
     def get_answers_by_range(self, oldtime, newtime, *args, **kwargs):
         question_id = kwargs.get("question_id")
         device_id = kwargs.get("device_id")
@@ -214,6 +224,7 @@ class DBQuery(object):
         last_hr = now - timedelta(hours=1)
 
         return self.get_comments_by_range(last_hr, now)
+
 
     def get_comments_by_range(self, oldtime, newtime, *args, **kwargs):
         query_str = {
