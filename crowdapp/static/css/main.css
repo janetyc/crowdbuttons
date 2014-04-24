@@ -155,8 +155,8 @@
     background-image: url("/static/img/room-status-icon-350.png");
   }
   .room-status-empty{ background-position:0px 0px; }
-  .room-status-meeting{ background-position:0px 175px;}
-  .room-status-course{ background-position:175px 0px;}
+  .room-status-meeting{ background-position:175px 0px;}
+  .room-status-course{ background-position:0px 175px;}
   .room-status-study{ background-position:175px 175px;}
 
 }
