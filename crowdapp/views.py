@@ -181,9 +181,32 @@ def get_vis(question_id, count):
     return render_template('visualization.html', data=data)
 
 # --- API -----
+@views.route('/get_data/<ObjectId:question_id>', methods=('GET','POST'))
+def get_data(question_id):
+    count = int(request.args.get('count', 10))
+    device_id = request.args.get('device_id', u'')
+    if DBQuery().isValidObjectId(device_id):
+        answers = DBQuery().get_answers_by_question_id(question_id, count, device_id=device_id)
+    else:
+        answers = DBQuery().get_answers_by_question_id(question_id, count)
+
+    output=[]
+    for ans in answers:
+        ans.created_time = ans.created_time + timedelta(hours=+8)
+        item = {
+            "id": str(ans._id),
+            "question_id": str(ans.question_id),
+            "device_id": str(ans.device_id),
+            "content": ans.content,
+            "created_user": ans.created_user,
+            "created_time": datetime.strftime(ans.created_time, "%Y-%m-%d %H:%M:%S") #local time
+        }
+        output.append(item)
+
+    return jsonify(success=1, data=output)
+
 @views.route('/get_data/last_hr/<ObjectId:question_id>')
 def get_last_hr_data(question_id):
-    count = 10
     device_id = request.args.get('device_id', u'')
     if DBQuery().isValidObjectId(device_id):
         answers = DBQuery().get_answers_by_last_hr(question_id=question_id,
