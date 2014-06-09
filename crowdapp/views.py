@@ -197,6 +197,10 @@ def get_answers(question_id, count):
         #convert to local time
         ans.created_time = ans.created_time + timedelta(hours=+8)
         time_interval = "%Y%m%d%H"
+
+        if mode == "minutely":
+            time_interval = "%Y%m%d%H%M"
+
         if mode == "daily":
             time_interval = "%Y%m%d"
 

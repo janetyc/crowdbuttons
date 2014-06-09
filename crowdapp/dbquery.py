@@ -85,6 +85,7 @@ class DBQuery(object):
 
         return str(answer_id)
 
+
     def get_answer_by_id(self, answer_id):
         answer = db.Answer.get_from_id(bson.ObjectId(answer_id))
         return answer
