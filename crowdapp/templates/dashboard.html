@@ -20,7 +20,8 @@
     <h2>Question</h2>
     {% for q in data['questions'] %}
     <ul class="item">
-      <li>total answer count: {{q.total}} (<a href="{{ url_for('views.get_vis', question_id=q._id, count=q.total) }}">vis</a>)</li>
+      <li>total answer count: {{q.total}} (<a href="{{ url_for('views.get_vis', question_id=q._id, count=q.total) }}">vis</a>)(<a href="{{ url_for('views.get_answers', question_id=q._id, count=q.total) }}">data</a>)</li>
+      <li>raw data API: [<a href="{{ url_for('views.get_last_hr_data', question_id=q._id) }}">last hr</a>], [<a href="{{ url_for('views.get_data', question_id=q._id) }}">by count</a>]</li>
    		<li>id: <a href="{{ url_for('views.question', question_id=q._id)}}">{{q._id}}</a></li>
    		<li>content: {{q.content}}</li>
    		<li>answer_list: {{q.answer_list}}</li>
