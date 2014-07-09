@@ -21,15 +21,16 @@ def get_location_status():
     rooms = ["R310", "R324/R326", "R340"]
     data=[]
     for room in rooms:
-        result = get_summary_data(question_id,location=room, mode="day")
-        last_hr_data = get_summary_data(question_id,location=room, mode="hour")
-        status = get_highest_status(last_hr_data["data"])
-        if status:
+        result = get_summary_data(question_id, location=room, mode="day")
+        if result:
+            last_hr_data = get_summary_data(question_id,location=room, mode="hour")
+            if last_hr_data:
+                status = get_highest_status(last_hr_data["data"])
+            else:
+                status = u'Empty'
+    
             result["status"] = status
-        else: #default=empty, should modify to prior schedule(?)
-            result["status"] = u'Empty'
-
-        data.append(result)
+            data.append(result)
 
     return render_template('location_status.html', data=data)
 
@@ -66,9 +67,12 @@ def get_summary_data(question_id, *args, **kwargs):
 
     question = DBQuery().get_question_by_id(question_id)
 
-    list = []    
+    list = []  
     for ans in answers:
         list.append(ans.content)
+
+    if not question:
+        return None
 
     datalist = []
     for i, ans in enumerate(question.answer_list):
