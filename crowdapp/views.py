@@ -11,25 +11,18 @@ views = Blueprint('views', __name__, template_folder='templates')
 @views.route('/')
 def index():
     if(env == "PRODUCTION" or env == "DEBUG"):
-        return redirect(url_for('views.get_location_status'))
+        return redirect(url_for('views.show_all_rooms'))
     else:
         return redirect(url_for('views.feeds'))
 
-@views.route('/status')
-def get_location_status():
+@views.route('/rooms')
+def show_all_rooms():
     question_id = "53267e1908df4f000247d845"
     rooms = ["R310", "R324/R326", "R340"]
     data=[]
     for room in rooms:
-        result = get_summary_data(question_id, location=room, mode="day")
+        result = get_room_summary(question_id, location=room)
         if result:
-            last_hr_data = get_summary_data(question_id,location=room, mode="hour")
-            if last_hr_data:
-                status = get_highest_status(last_hr_data["data"])
-            else:
-                status = u'Empty'
-    
-            result["status"] = status
             data.append(result)
 
     return render_template('location_status.html', data=data)
@@ -89,6 +82,27 @@ def get_summary_data(question_id, *args, **kwargs):
     }
 
     return data
+
+def predict_room_status(question_id, location):
+    last_hr_data = get_summary_data(question_id,location=location, mode="hour")
+    status = get_highest_status(last_hr_data["data"])
+    if not status:
+        status = u'Empty'
+
+    return status
+
+def get_room_summary(question_id, location):
+    result = get_summary_data(question_id, location=location, mode="day")
+    if result:
+        last_hr_data = get_summary_data(question_id,location=location, mode="hour")
+
+        if last_hr_data:
+            status = get_highest_status(last_hr_data["data"])
+            if not status:
+                status = u'Empty'
+
+        result["status"] = status
+    return result
 
 @views.route('/feeds')
 def feeds():
@@ -185,6 +199,22 @@ def get_vis(question_id, count):
     return render_template('visualization.html', data=data)
 
 # --- API -----
+
+# get prediction result
+@views.route('/get_status/<ObjectId:question_id>', methods=('GET', 'POST'))
+def get_status(question_id):
+    location = request.args.get('location', u'')
+    if DBQuery().isValidObjectId(question_id):
+        status = predict_room_status(str(question_id), location)
+        data = {
+            "question_id": str(question_id),
+            "location": location,
+            "status": status
+        }
+    else:
+        data = {}
+    return jsonify(success=1, data=data)
+
 @views.route('/get_data/<ObjectId:question_id>', methods=('GET','POST'))
 def get_data(question_id):
     count = int(request.args.get('count', 10))
