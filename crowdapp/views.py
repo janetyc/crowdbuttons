@@ -2,6 +2,7 @@ from flask import Blueprint, Flask, Response, request, render_template, redirect
 from crowdapp import app, env
 from crowdapp.dbquery import DBQuery
 from datetime import datetime, timedelta
+import random
 
 #dbquery = DBQuery()
 views = Blueprint('views', __name__, template_folder='templates')
@@ -199,6 +200,16 @@ def get_vis(question_id, count):
     return render_template('visualization.html', data=data)
 
 # --- API -----
+@views.route('/get_guide/<ObjectId:question_id>', methods=('GET', 'POST'))
+def get_guide(question_id):
+    location = request.args.get('location', u'')
+    output = "http://%s/arduino/buttons/0,0,0,0" % (request.remote_addr)
+    data = {
+        "remote_addr": request.remote_addr,
+        "output": output
+    }
+    return ",".join([str(random.randint(0, 1)) for i in range(4)])
+    #return jsonify(success=1, data=data)
 
 # get prediction result
 @views.route('/get_status/<ObjectId:question_id>', methods=('GET', 'POST'))
