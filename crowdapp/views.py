@@ -209,7 +209,7 @@ def get_guide(question_id):
         "output": output
     }
     guide_str = ",".join([str(random.randint(0, 1)) for i in range(4)])
-    ans_str = random.randint(0,3)
+    ans_str = str(random.randint(0,3))
 
     return "%s:%s" % (guide_str, ans_str)
     #return jsonify(success=1, data=data)
