@@ -203,12 +203,15 @@ def get_vis(question_id, count):
 @views.route('/get_guide/<ObjectId:question_id>', methods=('GET', 'POST'))
 def get_guide(question_id):
     location = request.args.get('location', u'')
-    output = "http://%s/arduino/buttons/0,0,0,0" % (request.remote_addr)
+    #output = "http://%s/arduino/buttons/0,0,0,0" % (request.remote_addr)
     data = {
         "remote_addr": request.remote_addr,
         "output": output
     }
-    return ",".join([str(random.randint(0, 1)) for i in range(4)])
+    guide_str = ",".join([str(random.randint(0, 1)) for i in range(4)])
+    ans_str = random.randint(0,3)
+
+    return "%s:%s" % (guide_str, ans_str)
     #return jsonify(success=1, data=data)
 
 # get prediction result
