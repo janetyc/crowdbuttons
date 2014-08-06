@@ -204,10 +204,10 @@ def get_vis(question_id, count):
 def get_guide(question_id):
     location = request.args.get('location', u'')
     #output = "http://%s/arduino/buttons/0,0,0,0" % (request.remote_addr)
-    data = {
-        "remote_addr": request.remote_addr,
-        "output": output
-    }
+    #data = {
+    #    "remote_addr": request.remote_addr,
+    #    "output": output
+    #}
     guide_str = ",".join([str(random.randint(0, 1)) for i in range(4)])
     ans_str = str(random.randint(0,3))
 
