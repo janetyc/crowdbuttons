@@ -6,7 +6,6 @@
   	 <ul class="item">
   		<h4>{{ d.location }}</h4>
   		<div class="status_report_link"><i class="fa fa-edit" style="color:#3182DE;"></i><a href="{{ url_for('views.question', question_id=d.question_id)}}?location={{d.location}}">I want to report!</a></div>
-
   		<div id="current-status-block">
   			{% if d.status == "Meeting" %}
   			<div class="room-status room-status-meeting"></div>
@@ -14,9 +13,9 @@
   			{% elif d.status == "Course" %}
   			<div class="room-status room-status-course"></div>
   			<div id="current-status">Course</div>
-  			{% elif d.status == "Self-study" %}
+  			{% elif d.status == "Study" %}
   			<div class="room-status room-status-study"></div>
-  			<div id="current-status">Self-study</div>
+  			<div id="current-status">Study</div>
   			{% else %}
 			<div class="room-status room-status-empty"></div>
   			<div id="current-status">Empty</div>
