@@ -208,16 +208,20 @@ def get_guide(question_id):
     #    "remote_addr": request.remote_addr,
     #    "output": output
     #}
-    guide_str = ",".join([str(random.randint(0, 1)) for i in range(4)])
+    guide_list = [str(random.randint(0, 1)) for i in range(4)]
+    guide_str = ",".join(guide_list)
     ans_str = str(random.randint(0,3))
 
     return "%s:%s" % (guide_str, ans_str)
     #return jsonify(success=1, data=data)
 
+
 # get prediction result
 @views.route('/get_status/<ObjectId:question_id>', methods=('GET', 'POST'))
 def get_status(question_id):
     location = request.args.get('location', u'')
+    for_display = request.args.get('for_display', u'')
+
     if DBQuery().isValidObjectId(question_id):
         status = predict_room_status(str(question_id), location)
         data = {
@@ -227,7 +231,11 @@ def get_status(question_id):
         }
     else:
         data = {}
-    return jsonify(success=1, data=data)
+
+    if for_display:
+        return status
+    else:
+        return jsonify(success=1, data=data)
 
 @views.route('/get_data/<ObjectId:question_id>', methods=('GET','POST'))
 def get_data(question_id):
@@ -350,7 +358,6 @@ def page_not_found():
 @views.route('/400')
 def bad_request():
     return render_template('400.html'), 400
-
 # ----- add function -----
 @views.route('/add_device', methods=('GET','POST'))
 def add_device():
