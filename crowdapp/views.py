@@ -229,7 +229,7 @@ def get_guide(question_id):
             guide_list.append("0")
 
     guide_str = ",".join(guide_list)
-    ans_str = str(staus_map[status])
+    ans_str = str(status_map[status])
 
     return "%s:%s" % (guide_str, ans_str)
     #return jsonify(success=1, data=data)
