@@ -203,6 +203,7 @@ def get_vis(question_id, count):
 @views.route('/get_guide/<ObjectId:question_id>', methods=('GET', 'POST'))
 def get_guide(question_id):
     location = request.args.get('location', u'')
+    guide_mode = request.args.get('guide_mode', u'0')
     #output = "http://%s/arduino/buttons/0,0,0,0" % (request.remote_addr)
     #data = {
     #    "remote_addr": request.remote_addr,
@@ -220,8 +221,12 @@ def get_guide(question_id):
         "Study": 3
     }
 
-    random_guide = random.randint(0,3)
     ans = status_map[status]
+    if guide_mode == "1":
+        random_guide = random.randint(0,3)
+    else:
+        random_guide = ans
+
     guide_list = []
     for i in range(4):
         if i == random_guide or i == ans:
