@@ -224,9 +224,9 @@ def get_guide(question_id):
     guide_list = []
     for i in range(4):
         if i == random_guide:
-            guide_list.append(1)
+            guide_list.append("1")
         else:
-            guide_list.append(0)
+            guide_list.append("0")
 
     guide_str = ",".join(guide_list)
     ans_str = str(staus_map[status])
