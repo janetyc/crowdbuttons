@@ -221,15 +221,16 @@ def get_guide(question_id):
     }
 
     random_guide = random.randint(0,3)
+    ans = status_map[status]
     guide_list = []
     for i in range(4):
-        if i == random_guide:
+        if i == random_guide or i == ans:
             guide_list.append("1")
         else:
             guide_list.append("0")
 
     guide_str = ",".join(guide_list)
-    ans_str = str(status_map[status])
+    ans_str = str(ans)
 
     return "%s:%s" % (guide_str, ans_str)
     #return jsonify(success=1, data=data)
