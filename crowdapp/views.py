@@ -208,13 +208,31 @@ def get_guide(question_id):
     #    "remote_addr": request.remote_addr,
     #    "output": output
     #}
-    guide_list = [str(random.randint(0, 1)) for i in range(4)]
+    if DBQuery().isValidObjectId(question_id):
+        status = predict_room_status(str(question_id), location)
+    else:
+        status = "Empty"
+
+    status_map = {
+        "Empty": 0,
+        "Meeting": 1,
+        "Course": 2,
+        "Study": 3
+    }
+
+    random_guide = random.randint(0,3)
+    guide_list = []
+    for i in range(4):
+        if i == random_guide:
+            guide_list.append(1)
+        else:
+            guide_list.append(0)
+
     guide_str = ",".join(guide_list)
-    ans_str = str(random.randint(0,3))
+    ans_str = str(staus_map[status])
 
     return "%s:%s" % (guide_str, ans_str)
     #return jsonify(success=1, data=data)
-
 
 # get prediction result
 @views.route('/get_status/<ObjectId:question_id>', methods=('GET', 'POST'))
