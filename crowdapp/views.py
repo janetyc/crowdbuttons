@@ -151,18 +151,18 @@ def feeds():
 
 @views.route('/dashboard')
 def dashboard():
-    devices = DBQuery().get_last_devices(5)
+    devices = DBQuery().get_last_devices(10)
     for d in devices:
         count = DBQuery().get_answer_count_by_device_id(str(d._id))
         d[u'total'] = count
 
-    questions = DBQuery().get_last_questions(5)
+    questions = DBQuery().get_last_questions(10)
     for q in questions:
         count = DBQuery().get_answer_count_by_question_id(q._id)
         q[u'total'] = count
 
-    answers = DBQuery().get_last_answers(5)
-    comments = DBQuery().get_last_comments(5)
+    answers = DBQuery().get_last_answers(10)
+    comments = DBQuery().get_last_comments(10)
     data = {
         'devices': devices,
         'questions': questions,
