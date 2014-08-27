@@ -19,7 +19,7 @@ def index():
 @views.route('/rooms')
 def show_all_rooms():
     question_id = "53267e1908df4f000247d845"
-    rooms = ["R310", "R324/R326", "R340"]
+    rooms = ["R310", "R324/R326", "R319/R321", "R340", "R440", "R542"]
     data=[]
     for room in rooms:
         result = get_room_summary(question_id, location=room)
