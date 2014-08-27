@@ -59,7 +59,9 @@ var color = d3.scale.ordinal()
 var mode = "{{data.mode}}";
 var parseDate;
 
-if(mode == "daily"){
+if(mode == "minutely"){
+  parseDate = d3.time.format("%Y%m%d%H%M").parse;
+}else if(mode == "daily"){
   parseDate = d3.time.format("%Y%m%d").parse;
 }else if(mode == "weekly"){
   parseDate = d3.time.format("%Y%m%U").parse;
