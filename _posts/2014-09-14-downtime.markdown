@@ -1,0 +1,19 @@
+---
+layout: post
+title:  "Downtime of Motion-Enable Buttons"
+date:   2014-09-14 12:35:00
+categories: research
+---
+I found that the buttons crashed many times when enabling verification task by detecting people passed by.
+
+#####R324#####
+The downtime are listed at below
+
+- 2014-09-01 15:00 -- 2014-09-02 14:00 (23 hrs)
+- 2014-09-04 13:00 -- 2014-09-04 16:00 (3 hrs)
+- 2014-09-05 21:00 -- 2014-09-09 12:24 (3 days 15 hrs 24 mins)
+- 2014-09-09 15:00 -- 2014-09-09 15:13 (13 mins)
+- 2014-09-10 15:00 -- 2014-09-10 17:40 (2 hrs 40 mins)
+- 2014-09-11 15:00 -- 2014-09-11 16:45 (1 hrs 45 mins)
+
+`@janetyc :-(`
