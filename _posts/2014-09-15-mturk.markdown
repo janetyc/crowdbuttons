@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "Collect Mturk Data for Experiments"
+date:   2014-09-15 23:35:00
+categories: research
+---
+
+Experiments
+
+- v1: 2014-07-07 -- 2014-07-31  preliminary experiment (25 days)
+- v2: 2014-08-02 -- 2014-08-08  backup preliminary experiment (7 days)
+- v3: 2014-08-13 -- 2014-08-21  led matrix online (9 days)
+- v4: 2014-08-23 -- 2014-08-28  direct feedback on led matrix (6 days)
+- v5: 2014-08-30 -- 2014-09-05  positive feedback (7 days)
+- v6: 2014-09-10 -- 2014-09-14  backup positive feedback (14 days)
+
+`@janetyc :-)`
