@@ -3,4 +3,6 @@ Jinja2
 Werkzeug
 gunicorn
 Flask-Scss
-Flask-MongoKit
+Flask-MongoKit==0.6
+pymongo==2.9.1
+mongokit==0.8.3
